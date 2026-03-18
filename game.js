@@ -244,7 +244,16 @@ async function saveScore(scoreVal, killsVal, waveVal) {
     const name = getPlayerName();
     const { data, error } = await db
         .from('leaderboard')
-        .insert({ player_name: name, score: scoreVal, kills: killsVal, wave: waveVal })
+        .insert({
+            player_name: name,
+            score: scoreVal,
+            kills: killsVal,
+            wave: waveVal,
+            shots_fired: shotsFired,
+            shots_hit: shotsHit,
+            time_survived: Math.round(timeSurvived * 10) / 10,
+            movement_data: movementData
+        })
         .select()
         .single();
 
@@ -349,6 +358,14 @@ let shootCooldown = 0;
 const SHOOT_RATE = 0.25;
 let footstepTimer = 0;
 const FOOTSTEP_INTERVAL = 0.35;
+
+// Tracking stats
+let shotsFired = 0;
+let shotsHit = 0;
+let timeSurvived = 0;
+let movementData = [];
+let movementSampleTimer = 0;
+const MOVEMENT_SAMPLE_INTERVAL = 1.0; // sample position every 1s
 
 // Wall colors for variety
 const WALL_COLORS_NS = ['#4a4e69', '#3a3d52', '#5a5e79', '#2d3040'];
@@ -620,6 +637,7 @@ function spawnWave() {
 function shoot() {
     if (shootCooldown > 0) return;
     shootCooldown = SHOOT_RATE;
+    shotsFired++;
 
     playSound('shoot');
 
@@ -652,6 +670,7 @@ function shoot() {
         const damage = Math.max(10, 35 - dist * 2);
         bestEnemy.health -= damage;
         bestEnemy.hitFlash = 0.1;
+        shotsHit++;
         playSound('hit');
 
         if (bestEnemy.health <= 0) {
@@ -685,6 +704,11 @@ function resetGame() {
     wave = 1;
     shootCooldown = 0;
     footstepTimer = 0;
+    shotsFired = 0;
+    shotsHit = 0;
+    timeSurvived = 0;
+    movementData = [];
+    movementSampleTimer = 0;
     spawnWave();
 }
 
@@ -838,6 +862,17 @@ function gameLoop(timestamp) {
     }
 
     if (shootCooldown > 0) shootCooldown -= dt;
+
+    // Track time and movement
+    timeSurvived += dt;
+    movementSampleTimer += dt;
+    if (movementSampleTimer >= MOVEMENT_SAMPLE_INTERVAL) {
+        movementSampleTimer = 0;
+        movementData.push([
+            Math.round(player.x * 10) / 10,
+            Math.round(player.y * 10) / 10
+        ]);
+    }
 
     for (const enemy of enemies) {
         enemy.update(dt);

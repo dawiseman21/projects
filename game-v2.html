@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mini FPS | Dave Wiseman</title>
+    <title>Mini FPS v2 | Dave Wiseman</title>
     <style>
+        :root {
+            --color-surface: #1a1d27;
+            --color-border: #2d3140;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: #0a0a0a;
@@ -53,6 +57,118 @@
             color: rgba(255, 255, 255, 0.7);
             text-shadow: 0 0 4px rgba(0,0,0,0.8);
         }
+        #waveAnnounce {
+            position: fixed;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 15;
+            pointer-events: none;
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: #e4e4e7;
+            text-shadow: 0 0 30px rgba(99,102,241,0.5);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        #comboDisplay {
+            position: fixed;
+            top: 20%;
+            right: 40px;
+            z-index: 15;
+            pointer-events: none;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #fbbf24;
+            text-shadow: 0 0 15px rgba(251,191,36,0.4);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        /* Weapon bar */
+        #weaponBar {
+            position: fixed;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+        .weapon-slot {
+            background: rgba(15, 17, 23, 0.7);
+            border: 1px solid #2d3140;
+            border-radius: 6px;
+            padding: 6px 14px;
+            text-align: center;
+            min-width: 80px;
+            transition: border-color 0.15s, background 0.15s;
+            position: relative;
+            overflow: hidden;
+        }
+        .weapon-slot.active {
+            border-color: #6366f1;
+            background: rgba(99, 102, 241, 0.15);
+        }
+        .weapon-slot .ws-key {
+            font-size: 0.6rem;
+            color: #4a4e69;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .weapon-slot.active .ws-key { color: #818cf8; }
+        .weapon-slot .ws-name {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #9ca3af;
+        }
+        .weapon-slot.active .ws-name { color: #e4e4e7; }
+        .weapon-cooldown {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            background: #6366f1;
+            transition: width 0.05s linear;
+        }
+        /* Boost indicators */
+        #boostBar {
+            position: fixed;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 10;
+        }
+        .boost-pill {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .boost-pill.active { display: flex; }
+        .boost-pill.speed { background: rgba(59,130,246,0.25); color: #60a5fa; border: 1px solid rgba(59,130,246,0.4); }
+        .boost-pill.damage { background: rgba(239,68,68,0.25); color: #f87171; border: 1px solid rgba(239,68,68,0.4); }
+        .boost-timer {
+            width: 20px;
+            height: 3px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .boost-timer-fill {
+            height: 100%;
+            border-radius: 2px;
+            transition: width 0.1s linear;
+        }
+        .boost-pill.speed .boost-timer-fill { background: #60a5fa; }
+        .boost-pill.damage .boost-timer-fill { background: #f87171; }
         #startScreen, #deathScreen {
             position: fixed;
             inset: 0;
@@ -68,10 +184,16 @@
             font-size: 3rem;
             font-weight: 800;
             letter-spacing: -0.03em;
-            margin-bottom: 1rem;
+            margin-bottom: 0.25rem;
             background: linear-gradient(135deg, #e4e4e7, #6366f1);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+        #startScreen .version-tag {
+            font-size: 0.85rem;
+            color: #6366f1;
+            font-weight: 600;
+            margin-bottom: 1rem;
         }
         #deathScreen h1 {
             background: linear-gradient(135deg, #e4e4e7, #ef4444);
@@ -96,6 +218,14 @@
             transition: background 0.2s;
         }
         .start-btn:hover { background: #818cf8; }
+        .features-list {
+            color: #6b7280;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            line-height: 1.8;
+            text-align: center;
+        }
+        .features-list strong { color: #9ca3af; }
         #backLink {
             position: fixed;
             top: 15px;
@@ -116,72 +246,6 @@
             opacity: 0;
             transition: opacity 0.1s;
         }
-        #muzzleFlash {
-            position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 8;
-            pointer-events: none;
-            opacity: 0;
-        }
-        /* Leaderboard */
-        .leaderboard {
-            margin-top: 1.5rem;
-            width: 320px;
-        }
-        .leaderboard h3 {
-            font-size: 0.95rem;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-bottom: 0.75rem;
-        }
-        .leaderboard ol {
-            list-style: none;
-            counter-reset: lb;
-        }
-        .leaderboard li {
-            counter-increment: lb;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.5rem 0.75rem;
-            border-radius: 6px;
-            font-size: 0.9rem;
-            color: #9ca3af;
-            background: rgba(255,255,255,0.03);
-            margin-bottom: 4px;
-        }
-        .leaderboard li:nth-child(1) { color: #fbbf24; background: rgba(251,191,36,0.08); }
-        .leaderboard li:nth-child(2) { color: #94a3b8; background: rgba(148,163,184,0.06); }
-        .leaderboard li:nth-child(3) { color: #b45309; background: rgba(180,83,9,0.06); }
-        .leaderboard li::before {
-            content: "#" counter(lb);
-            font-weight: 700;
-            min-width: 28px;
-        }
-        .leaderboard .lb-score {
-            font-weight: 600;
-            color: #6366f1;
-        }
-        .leaderboard .lb-details {
-            flex: 1;
-            margin: 0 0.75rem;
-            font-size: 0.8rem;
-        }
-        .lb-new { animation: lbPulse 0.6s ease; }
-        @keyframes lbPulse {
-            0%, 100% { background: rgba(99,102,241,0.05); }
-            50% { background: rgba(99,102,241,0.2); }
-        }
-        .lb-empty {
-            text-align: center;
-            color: #4a4e69;
-            padding: 1rem;
-            font-size: 0.85rem;
-        }
-        /* Sound toggle */
         #soundToggle {
             position: fixed;
             top: 15px;
@@ -197,7 +261,6 @@
             transition: color 0.2s, border-color 0.2s;
         }
         #soundToggle:hover { color: #e4e4e7; border-color: #6366f1; }
-        /* Pause menu */
         #pauseScreen {
             position: fixed;
             inset: 0;
@@ -219,7 +282,7 @@
             display: block;
             width: 220px;
             margin-bottom: 0.75rem;
-            background: var(--color-surface, #1a1d27);
+            background: var(--color-surface);
             border: 1px solid #2d3140;
             color: #e4e4e7;
             padding: 0.75rem 1.5rem;
@@ -233,11 +296,20 @@
         .pause-btn:hover { border-color: #6366f1; background: #232733; }
         .pause-btn.primary { background: #6366f1; border-color: #6366f1; }
         .pause-btn.primary:hover { background: #818cf8; }
-        .pause-info {
-            margin-top: 1rem;
-            color: #4a4e69;
-            font-size: 0.85rem;
-        }
+        .pause-info { margin-top: 1rem; color: #4a4e69; font-size: 0.85rem; }
+        .leaderboard { margin-top: 1.5rem; width: 320px; }
+        .leaderboard h3 { font-size: 0.95rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
+        .leaderboard ol { list-style: none; counter-reset: lb; }
+        .leaderboard li { counter-increment: lb; display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0.75rem; border-radius: 6px; font-size: 0.9rem; color: #9ca3af; background: rgba(255,255,255,0.03); margin-bottom: 4px; }
+        .leaderboard li:nth-child(1) { color: #fbbf24; background: rgba(251,191,36,0.08); }
+        .leaderboard li:nth-child(2) { color: #94a3b8; background: rgba(148,163,184,0.06); }
+        .leaderboard li:nth-child(3) { color: #b45309; background: rgba(180,83,9,0.06); }
+        .leaderboard li::before { content: "#" counter(lb); font-weight: 700; min-width: 28px; }
+        .leaderboard .lb-score { font-weight: 600; color: #6366f1; }
+        .leaderboard .lb-details { flex: 1; margin: 0 0.75rem; font-size: 0.8rem; }
+        .lb-new { animation: lbPulse 0.6s ease; }
+        @keyframes lbPulse { 0%, 100% { background: rgba(99,102,241,0.05); } 50% { background: rgba(99,102,241,0.2); } }
+        .lb-empty { text-align: center; color: #4a4e69; padding: 1rem; font-size: 0.85rem; }
     </style>
 </head>
 <body>
@@ -245,6 +317,24 @@
     <button id="soundToggle">Sound: ON</button>
     <canvas id="gameCanvas"></canvas>
     <div id="crosshair">+</div>
+    <div id="waveAnnounce"></div>
+    <div id="comboDisplay"></div>
+    <div id="boostBar">
+        <div class="boost-pill speed" id="boostSpeed">SPD <div class="boost-timer"><div class="boost-timer-fill" id="boostSpeedFill"></div></div></div>
+        <div class="boost-pill damage" id="boostDamage">DMG <div class="boost-timer"><div class="boost-timer-fill" id="boostDamageFill"></div></div></div>
+    </div>
+    <div id="weaponBar">
+        <div class="weapon-slot active" id="slot-rifle">
+            <div class="ws-key">1</div>
+            <div class="ws-name">Rifle</div>
+            <div class="weapon-cooldown" id="cd-rifle"></div>
+        </div>
+        <div class="weapon-slot" id="slot-shotgun">
+            <div class="ws-key">2</div>
+            <div class="ws-name">Shotgun</div>
+            <div class="weapon-cooldown" id="cd-shotgun"></div>
+        </div>
+    </div>
     <div id="hud">
         <div><span>HP </span><span class="health-val" id="healthVal">100</span></div>
         <div><span>SCORE </span><span class="val" id="scoreVal">0</span></div>
@@ -255,17 +345,22 @@
 
     <div id="startScreen">
         <h1>MINI FPS</h1>
+        <div class="version-tag">V2 — EVOLVED</div>
         <p>WASD to move &bull; Mouse to look &amp; shoot</p>
-        <p>Survive the waves. Don't let them get close.</p>
-        <div class="name-input" style="margin-top:1.25rem;">
+        <p>1/2 to switch weapons &bull; ESC to pause</p>
+        <div class="features-list">
+            <strong>New:</strong> Procedural maps &bull; 3 enemy types &bull; Boss waves<br>
+            Shotgun &bull; Pickups &bull; Combos &bull; Minimap &bull; Particles
+        </div>
+        <div style="margin-top:1.25rem;">
             <input type="text" id="playerName" placeholder="Enter your name" maxlength="20"
                 style="background:#1a1d27; border:1px solid #2d3140; color:#e4e4e7; padding:0.6rem 1rem;
                 border-radius:6px; font-size:1rem; width:220px; text-align:center; outline:none;"
                 onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#2d3140'">
         </div>
-        <button class="start-btn" id="startBtn">Click to Play Classic</button>
-        <a href="game-v2.html" style="display:inline-block; margin-top:1rem; color:#6366f1; text-decoration:none; font-size:0.95rem; font-weight:600;">Play v2 &rarr;</a>
-        <a href="leaderboard.html" style="display:inline-block; margin-top:0.5rem; color:#4a4e69; text-decoration:none; font-size:0.85rem;">View Full Leaderboard</a>
+        <button class="start-btn" id="startBtn">Click to Play</button>
+        <a href="leaderboard.html" style="display:inline-block; margin-top:1rem; color:#6366f1; text-decoration:none; font-size:0.95rem; font-weight:600;">View Full Leaderboard &rarr;</a>
+        <a href="game.html" style="display:inline-block; margin-top:0.5rem; color:#4a4e69; text-decoration:none; font-size:0.85rem;">Play Classic Version</a>
         <div class="leaderboard" id="startLeaderboard"></div>
     </div>
 
@@ -287,6 +382,6 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-    <script src="game.js"></script>
+    <script src="game-v2.js"></script>
 </body>
 </html>

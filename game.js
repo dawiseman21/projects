@@ -231,6 +231,7 @@ async function fetchLeaderboard() {
     const { data, error } = await db
         .from('leaderboard')
         .select('*')
+        .eq('game_version', 'classic')
         .order('score', { ascending: false })
         .limit(LB_MAX);
 
@@ -252,7 +253,8 @@ async function saveScore(scoreVal, killsVal, waveVal) {
             shots_fired: shotsFired,
             shots_hit: shotsHit,
             time_survived: Math.round(timeSurvived * 10) / 10,
-            movement_data: movementData
+            movement_data: movementData,
+            game_version: 'classic'
         })
         .select()
         .single();

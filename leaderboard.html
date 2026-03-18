@@ -195,10 +195,125 @@
             color: var(--color-text-muted);
         }
 
+        /* Clickable rows */
+        .lb-table tr[data-clickable] { cursor: pointer; }
+        .lb-table tr[data-clickable]:hover td { background: rgba(99,102,241,0.08); }
+        .lb-table .name-cell-link { cursor: pointer; text-decoration: underline; text-decoration-color: rgba(99,102,241,0.3); text-underline-offset: 2px; }
+        .lb-table .name-cell-link:hover { text-decoration-color: var(--color-accent); }
+
+        /* Filter bar */
+        .filter-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            padding: 0.75rem 1rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            flex-wrap: wrap;
+        }
+        .filter-bar .filter-label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+        .filter-bar .filter-value {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--color-accent);
+        }
+        .filter-bar .filter-btn {
+            background: rgba(99,102,241,0.1);
+            border: 1px solid rgba(99,102,241,0.3);
+            color: var(--color-accent);
+            padding: 0.3rem 0.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .filter-bar .filter-btn:hover { background: rgba(99,102,241,0.2); }
+        .filter-bar .filter-crumb {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Game detail panel */
+        .game-detail {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+        .game-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.25rem;
+        }
+        .game-detail-header h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--color-text);
+        }
+        .game-detail-header .game-date {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+        .detail-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+        }
+        .detail-stat {
+            text-align: center;
+        }
+        .detail-stat .ds-val {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-accent);
+        }
+        .detail-stat .ds-label {
+            font-size: 0.7rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* Version tabs */
+        .version-tabs {
+            display: flex;
+            gap: 0;
+            margin-bottom: 2rem;
+            justify-content: center;
+        }
+        .version-tab {
+            padding: 0.6rem 1.5rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border-color 0.2s;
+        }
+        .version-tab:first-child { border-radius: 8px 0 0 8px; }
+        .version-tab:last-child { border-radius: 0 8px 8px 0; }
+        .version-tab.active {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: white;
+        }
+        .version-tab:not(.active):hover { background: #232733; color: var(--color-text); }
+
         @media (max-width: 768px) {
             .charts-grid { grid-template-columns: 1fr; }
             .lb-table th, .lb-table td { padding: 0.6rem 0.75rem; font-size: 0.85rem; }
             .stat-card .stat-val { font-size: 1.5rem; }
+            .detail-stats { grid-template-columns: repeat(3, 1fr); }
         }
     </style>
 </head>
@@ -220,7 +335,13 @@
 
     <div class="lb-page">
         <h1>Leaderboard</h1>
-        <p class="lb-subtitle">Mini FPS global rankings &bull; <a href="game.html">Play now</a> to get on the board</p>
+        <p class="lb-subtitle">Mini FPS global rankings &bull; <a href="game-v2.html">Play v2</a> &bull; <a href="game.html">Play Classic</a></p>
+
+        <div class="version-tabs">
+            <button class="version-tab active" data-version="v2">v2 — Evolved</button>
+            <button class="version-tab" data-version="classic">Classic</button>
+            <button class="version-tab" data-version="all">All</button>
+        </div>
 
         <div class="stats-row">
             <div class="stat-card">
@@ -245,8 +366,26 @@
             </div>
         </div>
 
+        <div class="filter-bar" id="filterBar" style="display:none;">
+            <span class="filter-label">Viewing:</span>
+            <span class="filter-value" id="filterValue"></span>
+            <span class="filter-crumb" id="filterCrumb"></span>
+            <button class="filter-btn" id="filterReset">Show All Players</button>
+        </div>
+
+        <div class="game-detail" id="gameDetail">
+            <div class="game-detail-header">
+                <div>
+                    <h3 id="detailTitle"></h3>
+                    <span class="game-date" id="detailDate"></span>
+                </div>
+                <button class="filter-btn" id="detailClose">Close</button>
+            </div>
+            <div class="detail-stats" id="detailStats"></div>
+        </div>
+
         <div class="lb-header">
-            <h2>Top Scores</h2>
+            <h2 id="tableTitle">Top Scores</h2>
             <span class="live-badge"><span class="live-dot"></span> Live</span>
         </div>
 

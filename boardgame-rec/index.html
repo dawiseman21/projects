@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Game Recommender</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Board Game Recommender</h1>
+            <p class="subtitle">Tell us what you like, and we'll find your next favorite game.</p>
+        </header>
+
+        <!-- Game Search / Selection -->
+        <section class="panel" id="input-panel">
+            <h2>Games You Enjoy</h2>
+            <p class="hint">Search for board games you like. The more you add, the better the recommendations.</p>
+            <div class="search-wrap">
+                <input type="text" id="game-search" placeholder="Search for a board game..." autocomplete="off">
+                <div id="search-results" class="search-results hidden"></div>
+            </div>
+            <div id="selected-games" class="selected-games"></div>
+        </section>
+
+        <!-- Preference Filters -->
+        <section class="panel" id="filters-panel">
+            <h2>Preferences <span class="optional">(optional)</span></h2>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label for="player-count">Player Count</label>
+                    <select id="player-count">
+                        <option value="0">Any</option>
+                        <option value="1">Solo (1)</option>
+                        <option value="2">2 players</option>
+                        <option value="3">3 players</option>
+                        <option value="4">4 players</option>
+                        <option value="5">5 players</option>
+                        <option value="6">6+ players</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="complexity">Complexity</label>
+                    <select id="complexity">
+                        <option value="0">Any</option>
+                        <option value="1">Light (1-2)</option>
+                        <option value="2">Medium (2-3)</option>
+                        <option value="3">Medium-Heavy (3-4)</option>
+                        <option value="4">Heavy (4-5)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="play-time">Play Time</label>
+                    <select id="play-time">
+                        <option value="0">Any</option>
+                        <option value="30">Under 30 min</option>
+                        <option value="60">Under 60 min</option>
+                        <option value="120">Under 2 hours</option>
+                        <option value="180">Under 3 hours</option>
+                        <option value="999">3+ hours (epic)</option>
+                    </select>
+                </div>
+            </div>
+            <button id="recommend-btn" class="btn-primary" disabled>Get Recommendations</button>
+        </section>
+
+        <!-- Results -->
+        <section class="panel hidden" id="results-panel">
+            <h2>Recommended for You</h2>
+            <div id="results-list" class="results-list"></div>
+        </section>
+
+        <!-- Loading -->
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Loading game data...</p>
+        </div>
+
+        <footer>
+            <p>Data sourced from <a href="https://boardgamegeek.com" target="_blank" rel="noopener">BoardGameGeek</a>.
+               Built by <a href="/">Dave Wiseman</a>.</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

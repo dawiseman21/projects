@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(git reset:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(pip install:*)",
+      "Bash(python build_data.py)",
+      "Bash(python -c \":*)",
+      "WebSearch",
+      "WebFetch(domain:boardgamegeek.com)",
+      "WebFetch(domain:github.com)"
     ]
   }
 }

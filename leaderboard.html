@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaderboard | Mini FPS</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .lb-page {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+        .lb-page h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--color-text), var(--color-accent-hover));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .lb-subtitle {
+            text-align: center;
+            color: var(--color-text-muted);
+            margin-bottom: 3rem;
+        }
+        .lb-subtitle a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+        .lb-subtitle a:hover { color: var(--color-accent-hover); }
+
+        /* Stats row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+        .stat-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        .stat-card .stat-val {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--color-accent);
+            line-height: 1.2;
+        }
+        .stat-card .stat-label {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 0.25rem;
+        }
+
+        /* Table */
+        .lb-table-wrap {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .lb-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .lb-table th {
+            text-align: left;
+            padding: 0.85rem 1.25rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--color-text-muted);
+            border-bottom: 1px solid var(--color-border);
+            background: rgba(255,255,255,0.02);
+        }
+        .lb-table th.right, .lb-table td.right { text-align: right; }
+        .lb-table td {
+            padding: 0.75rem 1.25rem;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .lb-table tr:last-child td { border-bottom: none; }
+        .lb-table tr:hover td { background: rgba(99,102,241,0.04); }
+
+        .rank-cell {
+            font-weight: 700;
+            width: 50px;
+        }
+        .rank-1 .rank-cell { color: #fbbf24; }
+        .rank-2 .rank-cell { color: #94a3b8; }
+        .rank-3 .rank-cell { color: #cd7f32; }
+        .name-cell { font-weight: 600; color: var(--color-text); }
+        .score-cell { font-weight: 700; color: var(--color-accent); }
+        .meta-cell { color: var(--color-text-muted); font-size: 0.85rem; }
+
+        .lb-empty-msg {
+            text-align: center;
+            padding: 3rem;
+            color: var(--color-text-muted);
+        }
+        .lb-loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Live indicator */
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: #22c55e;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+        }
+        .live-dot {
+            width: 6px;
+            height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: livePulse 2s ease infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .lb-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .lb-header h2 {
+            text-align: left;
+            font-size: 1.3rem;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .lb-table th, .lb-table td { padding: 0.6rem 0.75rem; font-size: 0.85rem; }
+            .stat-card .stat-val { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo"><a href="index.html" style="color:inherit;text-decoration:none;">Dave Wiseman</a></div>
+            <ul class="nav-links">
+                <li><a href="index.html#services">Services</a></li>
+                <li><a href="index.html#projects">Projects</a></li>
+                <li><a href="game.html">Play Game</a></li>
+                <li><a href="index.html#contact" class="btn-nav">Get in Touch</a></li>
+            </ul>
+            <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <div class="lb-page">
+        <h1>Leaderboard</h1>
+        <p class="lb-subtitle">Mini FPS global rankings &bull; <a href="game.html">Play now</a> to get on the board</p>
+
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-val" id="statPlayers">-</div>
+                <div class="stat-label">Total Players</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="statGames">-</div>
+                <div class="stat-label">Games Played</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="statHighScore">-</div>
+                <div class="stat-label">High Score</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="statTopWave">-</div>
+                <div class="stat-label">Highest Wave</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-val" id="statTotalKills">-</div>
+                <div class="stat-label">Total Kills</div>
+            </div>
+        </div>
+
+        <div class="lb-header">
+            <h2>Top Scores</h2>
+            <span class="live-badge"><span class="live-dot"></span> Live</span>
+        </div>
+
+        <div class="lb-table-wrap">
+            <div class="lb-loading" id="lbLoading">Loading scores...</div>
+            <table class="lb-table" id="lbTable" style="display:none;">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Player</th>
+                        <th class="right">Score</th>
+                        <th class="right">Kills</th>
+                        <th class="right">Wave</th>
+                        <th class="right">Date</th>
+                    </tr>
+                </thead>
+                <tbody id="lbBody"></tbody>
+            </table>
+            <div class="lb-empty-msg" id="lbEmpty" style="display:none;">No scores yet. Be the first to play!</div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Dave Wiseman. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="leaderboard.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

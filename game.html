@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mini FPS | Dave Wiseman</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a0a;
+            color: #e4e4e7;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        #gameCanvas {
+            border: 1px solid #2d3140;
+            cursor: crosshair;
+            display: block;
+            image-rendering: pixelated;
+        }
+        #hud {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            z-index: 10;
+            background: rgba(15, 17, 23, 0.85);
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            border: 1px solid #2d3140;
+        }
+        #hud span { color: #9ca3af; }
+        #hud .val { color: #6366f1; }
+        #hud .health-val { color: #22c55e; }
+        #hud .health-val.low { color: #ef4444; }
+        #crosshair {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            pointer-events: none;
+            font-size: 1.5rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-shadow: 0 0 4px rgba(0,0,0,0.8);
+        }
+        #startScreen, #deathScreen {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 10, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        #deathScreen { display: none; }
+        #startScreen h1, #deathScreen h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #e4e4e7, #6366f1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #deathScreen h1 {
+            background: linear-gradient(135deg, #e4e4e7, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        #startScreen p, #deathScreen p {
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        .start-btn {
+            margin-top: 1.5rem;
+            background: #6366f1;
+            color: white;
+            border: none;
+            padding: 0.85rem 2.5rem;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .start-btn:hover { background: #818cf8; }
+        #backLink {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.9rem;
+            z-index: 200;
+            transition: color 0.2s;
+        }
+        #backLink:hover { color: #e4e4e7; }
+        #flashOverlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 100, 100, 0.15);
+            z-index: 5;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.1s;
+        }
+        #muzzleFlash {
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 8;
+            pointer-events: none;
+            opacity: 0;
+        }
+        /* Leaderboard */
+        .leaderboard {
+            margin-top: 1.5rem;
+            width: 320px;
+        }
+        .leaderboard h3 {
+            font-size: 0.95rem;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.75rem;
+        }
+        .leaderboard ol {
+            list-style: none;
+            counter-reset: lb;
+        }
+        .leaderboard li {
+            counter-increment: lb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #9ca3af;
+            background: rgba(255,255,255,0.03);
+            margin-bottom: 4px;
+        }
+        .leaderboard li:nth-child(1) { color: #fbbf24; background: rgba(251,191,36,0.08); }
+        .leaderboard li:nth-child(2) { color: #94a3b8; background: rgba(148,163,184,0.06); }
+        .leaderboard li:nth-child(3) { color: #b45309; background: rgba(180,83,9,0.06); }
+        .leaderboard li::before {
+            content: "#" counter(lb);
+            font-weight: 700;
+            min-width: 28px;
+        }
+        .leaderboard .lb-score {
+            font-weight: 600;
+            color: #6366f1;
+        }
+        .leaderboard .lb-details {
+            flex: 1;
+            margin: 0 0.75rem;
+            font-size: 0.8rem;
+        }
+        .lb-new { animation: lbPulse 0.6s ease; }
+        @keyframes lbPulse {
+            0%, 100% { background: rgba(99,102,241,0.05); }
+            50% { background: rgba(99,102,241,0.2); }
+        }
+        .lb-empty {
+            text-align: center;
+            color: #4a4e69;
+            padding: 1rem;
+            font-size: 0.85rem;
+        }
+        /* Sound toggle */
+        #soundToggle {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            background: rgba(15, 17, 23, 0.85);
+            border: 1px solid #2d3140;
+            color: #9ca3af;
+            padding: 0.4rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            z-index: 200;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        #soundToggle:hover { color: #e4e4e7; border-color: #6366f1; }
+        /* Pause menu */
+        #pauseScreen {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 10, 10, 0.9);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        #pauseScreen h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            color: #e4e4e7;
+        }
+        .pause-btn {
+            display: block;
+            width: 220px;
+            margin-bottom: 0.75rem;
+            background: var(--color-surface, #1a1d27);
+            border: 1px solid #2d3140;
+            color: #e4e4e7;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            text-align: center;
+        }
+        .pause-btn:hover { border-color: #6366f1; background: #232733; }
+        .pause-btn.primary { background: #6366f1; border-color: #6366f1; }
+        .pause-btn.primary:hover { background: #818cf8; }
+        .pause-info {
+            margin-top: 1rem;
+            color: #4a4e69;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" id="backLink">&larr; Back to site</a>
+    <button id="soundToggle">Sound: ON</button>
+    <canvas id="gameCanvas"></canvas>
+    <div id="crosshair">+</div>
+    <div id="hud">
+        <div><span>HP </span><span class="health-val" id="healthVal">100</span></div>
+        <div><span>SCORE </span><span class="val" id="scoreVal">0</span></div>
+        <div><span>KILLS </span><span class="val" id="killsVal">0</span></div>
+        <div><span>WAVE </span><span class="val" id="waveVal">1</span></div>
+    </div>
+    <div id="flashOverlay"></div>
+
+    <div id="startScreen">
+        <h1>MINI FPS</h1>
+        <p>WASD to move &bull; Mouse to look &amp; shoot</p>
+        <p>Survive the waves. Don't let them get close.</p>
+        <div class="name-input" style="margin-top:1.25rem;">
+            <input type="text" id="playerName" placeholder="Enter your name" maxlength="20"
+                style="background:#1a1d27; border:1px solid #2d3140; color:#e4e4e7; padding:0.6rem 1rem;
+                border-radius:6px; font-size:1rem; width:220px; text-align:center; outline:none;"
+                onfocus="this.style.borderColor='#6366f1'" onblur="this.style.borderColor='#2d3140'">
+        </div>
+        <button class="start-btn" id="startBtn">Click to Play</button>
+        <a href="leaderboard.html" style="display:inline-block; margin-top:1rem; color:#6366f1; text-decoration:none; font-size:0.95rem; font-weight:600;">View Full Leaderboard &rarr;</a>
+        <div class="leaderboard" id="startLeaderboard"></div>
+    </div>
+
+    <div id="pauseScreen">
+        <h1>PAUSED</h1>
+        <button class="pause-btn primary" id="resumeBtn">Resume</button>
+        <button class="pause-btn" id="quitSaveBtn">Quit &amp; Save Score</button>
+        <button class="pause-btn" id="quitBtn">Quit</button>
+        <div class="pause-info">Press ESC to resume</div>
+    </div>
+
+    <div id="deathScreen">
+        <h1>YOU DIED</h1>
+        <p>Final Score: <span id="finalScore">0</span></p>
+        <p>Kills: <span id="finalKills">0</span> &bull; Wave: <span id="finalWave">1</span></p>
+        <button class="start-btn" id="restartBtn">Play Again</button>
+        <a href="leaderboard.html" style="display:inline-block; margin-top:1rem; color:#6366f1; text-decoration:none; font-size:0.95rem; font-weight:600;">View Full Leaderboard &rarr;</a>
+        <div class="leaderboard" id="deathLeaderboard"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+exclude:
+  - CLAUDE.md
+  - .claude
+  - archive/boardgame-rec/pipeline

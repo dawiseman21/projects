@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="What happens to a safety business when it works? An essay and an interactive model on school bus cameras, fines, and paying for the good a program does.">
+<link rel="canonical" href="https://wisemandata.com/paying-for-the-good.html">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://wisemandata.com/paying-for-the-good.html">
+<meta property="og:title" content="Paying for the Good | Dave Wiseman">
+<meta property="og:description" content="What happens to a safety business when it works? An essay and an interactive model on school bus cameras, fines, and paying for the good a program does.">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0f2a26">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'%3E%3Ccircle cx='18' cy='18' r='16' fill='%231E4943' stroke='%23F2B84B' stroke-width='2'/%3E%3Cpolygon points='5,26 14,13 19,20 23,15 31,26' fill='%23F2B84B'/%3E%3C/svg%3E">
+<title>Paying for the Good | Dave Wiseman</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Work+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* Layout: the wisemandata.com park-poster look. Four tabs: explore (short version, loop, model),
+   essay, reading, sources. Single dark look, by choice. */
+:root {
+  --bg: #0f2a26; --panel: #1e4943; --card: #163a34; --line: #2f5f55;
+  --text: #f3ebdd; --muted: #c9d6ce; --fog: #9fb8ac;
+  --gold: #f2b84b; --ember: #e0702e;
+  --s-share: #d9692a; --s-flat: #3d97d6; --s-results: #b08c1a; --s-passes: #f2b84b;
+  --display: 'Jost', 'Futura', 'Century Gothic', Arial, sans-serif;
+  --body: 'Work Sans', 'Helvetica Neue', Arial, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--text);
+  font-family: var(--body); font-size: 17px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+a { color: var(--gold); }
+a:hover { color: var(--text); }
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.page { max-width: 1120px; margin: 0 auto; padding-block: 32px 64px; }
+h1, h2, h3 { font-family: var(--display); text-transform: uppercase; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 6vw, 3.5rem); line-height: 1.05; letter-spacing: 0.03em; }
+h2 { font-size: clamp(1.25rem, 3vw, 1.75rem); letter-spacing: 0.14em; color: var(--gold); margin-bottom: 0.5rem; }
+h3 { font-size: 1rem; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+p { margin: 0 0 0.9rem; }
+.eyebrow { font-family: var(--display); font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); font-size: 0.85rem; margin-bottom: 0.75rem; }
+.hero { border: 2px solid var(--gold); border-radius: 4px; background: var(--panel); padding: clamp(24px, 5vw, 44px); }
+.hero .lede { max-width: 42em; margin-top: 1rem; color: var(--muted); font-size: 1.08rem; }
+.tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 8px; }
+.tabs a { font-family: var(--display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.85rem; text-decoration: none; color: var(--muted); padding: 8px 14px; border: 2px solid var(--line); border-radius: 3px; }
+.tabs a:hover { color: var(--text); border-color: var(--fog); }
+.tabs a[aria-current="page"] { color: var(--bg); background: var(--gold); border-color: var(--gold); }
+section { margin-top: 48px; }
+.intro { max-width: 46em; color: var(--muted); }
+.src { color: var(--fog); font-size: 0.86em; }
+.grade { display: inline-block; min-width: 1.4em; padding: 0 0.35em; border: 1px solid var(--line); border-radius: 3px; font-family: var(--display); font-weight: 600; font-size: 0.78em; text-align: center; color: var(--text); font-style: normal; }
+.grade.c { border-color: var(--ember); }
+
+/* Short version */
+.short { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 16px; }
+.short > div { background: var(--card); border-radius: 4px; padding: 18px 20px; min-width: 0; }
+.short h3 { color: var(--gold); }
+.short p, .short li { color: var(--muted); }
+.short ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.45rem; }
+.short .scale { border: 2px dashed var(--ember); }
+.short .scale h3 { color: var(--ember); }
+
+/* The loop */
+.loop { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 24px; align-items: start; margin-top: 20px; }
+.flow { display: grid; gap: 10px; }
+.node { display: grid; grid-template-columns: 2.2em minmax(0, 1fr); gap: 10px; align-items: center; width: 100%; text-align: left; padding: 12px 14px; border: 2px solid var(--line); border-radius: 4px; background: var(--card); color: var(--text); font: inherit; cursor: pointer; }
+.node:hover { border-color: var(--fog); }
+.node[aria-pressed="true"] { border-color: var(--gold); background: var(--panel); }
+.node .n { font-family: var(--display); font-weight: 700; color: var(--gold); font-size: 1.1rem; }
+.node .t { font-family: var(--display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.95rem; }
+.node .s { display: block; font-family: var(--body); text-transform: none; letter-spacing: 0; font-weight: 400; color: var(--muted); font-size: 0.9rem; }
+.arrow { text-align: center; color: var(--fog); font-size: 0.9rem; line-height: 1; }
+.fork { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.fork .node.warn { border-style: dashed; }
+.side { margin-top: 14px; }
+.back { font-size: 0.88rem; color: var(--fog); text-align: center; margin: 0; }
+.detail { position: sticky; top: 16px; border: 2px solid var(--gold); border-radius: 4px; background: var(--panel); padding: 22px; min-width: 0; }
+.detail h3 { color: var(--gold); font-size: 1.1rem; }
+.detail .gist { font-weight: 600; color: var(--text); margin-bottom: 0.6rem; }
+.detail ul { margin: 0.4rem 0 0; padding-left: 1.1rem; display: grid; gap: 0.55rem; }
+.detail li { color: var(--muted); }
+.detail .david { border-left: 3px solid var(--gold); padding: 8px 12px; margin: 0.6rem 0 0.9rem; background: var(--bg); color: var(--text); font-style: italic; }
+
+/* Model */
+.model { display: grid; grid-template-columns: minmax(0, 340px) minmax(0, 1fr); gap: 24px; margin-top: 20px; align-items: start; }
+.controls { background: var(--card); border-radius: 4px; padding: 18px; display: grid; gap: 14px; }
+.controls fieldset { border: 1px solid var(--line); border-radius: 4px; padding: 10px 12px 12px; margin: 0; display: grid; gap: 12px; min-width: 0; }
+.controls legend { font-family: var(--display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.78rem; color: var(--gold); padding: 0 4px; }
+.ctl label { display: flex; justify-content: space-between; gap: 8px; font-size: 0.9rem; }
+.ctl output { font-variant-numeric: tabular-nums; font-weight: 600; color: var(--text); white-space: nowrap; }
+.ctl .hint { display: block; font-size: 0.78rem; color: var(--fog); line-height: 1.4; margin-top: 2px; }
+.ctl input[type=range] { width: 100%; accent-color: var(--gold); margin: 4px 0 0; }
+.presets { display: flex; flex-wrap: wrap; gap: 6px; }
+.presets button { font: inherit; font-size: 0.78rem; padding: 5px 9px; border-radius: 3px; border: 1px solid var(--line); background: var(--bg); color: var(--muted); cursor: pointer; }
+.presets button[aria-pressed="true"] { border-color: var(--gold); color: var(--text); }
+.check { display: flex; gap: 8px; align-items: flex-start; font-size: 0.85rem; color: var(--muted); }
+.check input { margin-top: 5px; accent-color: var(--gold); }
+.results { min-width: 0; display: grid; gap: 18px; }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tile { background: var(--card); border-radius: 4px; padding: 14px 16px; min-width: 0; }
+.tile .k { font-family: var(--display); font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; font-size: 0.75rem; color: var(--fog); }
+.tile .v { font-family: var(--display); font-weight: 700; font-size: 1.5rem; line-height: 1.25; font-variant-numeric: tabular-nums; }
+.tile .d { font-size: 0.85rem; color: var(--muted); }
+.tile .row { display: block; font-size: 1rem; line-height: 1.55; }
+.tile .row i { display: inline-block; width: 12px; height: 3px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+.chart { background: var(--card); border-radius: 4px; padding: 14px 14px 8px; position: relative; min-width: 0; }
+.chart h3 { font-size: 0.85rem; color: var(--text); }
+.chart .sub { font-size: 0.82rem; color: var(--fog); margin: 0 0 6px; }
+.chart svg { display: block; width: 100%; height: 240px; overflow: visible; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.85rem; color: var(--muted); margin: 4px 0 6px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 18px; height: 3px; border-radius: 2px; display: inline-block; }
+.tip { position: absolute; pointer-events: none; background: var(--bg); border: 1px solid var(--line); border-radius: 4px; padding: 8px 10px; font-size: 0.82rem; line-height: 1.45; font-variant-numeric: tabular-nums; min-width: 150px; z-index: 2; }
+.tip b { font-family: var(--display); letter-spacing: 0.06em; }
+.tablebtn { justify-self: start; background: none; border: 1px solid var(--line); color: var(--muted); border-radius: 3px; padding: 6px 12px; font: inherit; font-size: 0.85rem; cursor: pointer; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 0.85rem; font-variant-numeric: tabular-nums; }
+th, td { padding: 6px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; vertical-align: top; }
+th:first-child, td:first-child { text-align: left; }
+th { font-family: var(--display); font-weight: 600; letter-spacing: 0.06em; color: var(--fog); }
+.inputs td:last-child, .inputs th:last-child { text-align: left; white-space: normal; min-width: 260px; }
+.hard { border: 2px dashed var(--ember); border-radius: 4px; padding: 16px 18px; background: var(--card); }
+.hard h3 { color: var(--ember); }
+.hard .nums { display: flex; flex-wrap: wrap; gap: 8px 28px; margin: 6px 0 10px; font-variant-numeric: tabular-nums; }
+.hard .nums div { font-size: 0.9rem; color: var(--muted); max-width: 15em; }
+.hard .nums b { display: block; font-family: var(--display); font-size: 1.35rem; color: var(--text); }
+.hard p { color: var(--muted); font-size: 0.95rem; }
+
+.value { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; align-items: center; background: var(--panel); border-radius: 4px; padding: 22px; margin-top: 18px; }
+.value .big { font-family: var(--display); font-weight: 700; font-size: clamp(2rem, 6vw, 3rem); color: var(--gold); font-variant-numeric: tabular-nums; line-height: 1.1; }
+.meet { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 18px; }
+.meet div { background: var(--card); border-radius: 4px; padding: 18px; min-width: 0; }
+.meet div:nth-child(1) { border-top: 3px solid var(--gold); }
+.meet div:nth-child(2) { border-top: 3px dashed var(--ember); }
+.meet div:nth-child(3) { border-top: 3px solid var(--s-flat); }
+.meet ul { margin: 0; padding-left: 1.1rem; display: grid; gap: 0.4rem; color: var(--muted); font-size: 0.95rem; }
+
+/* Essay, reading, sources */
+.essay { max-width: 44em; margin-top: 24px; }
+.essay h2 { margin-top: 2rem; }
+.essay p, .essay li { color: var(--muted); }
+.essay strong { color: var(--text); }
+.essay ul, .essay ol { padding-left: 1.2rem; display: grid; gap: 0.5rem; margin: 0 0 1rem; }
+.essay hr { border: 0; border-top: 1px solid var(--line); margin: 1.5rem 0; }
+.books { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 12px; }
+.book { background: var(--card); border-radius: 4px; padding: 16px 18px; min-width: 0; border-left: 3px solid var(--line); }
+.book.start { border-left-color: var(--gold); }
+.book .title { font-family: var(--display); font-weight: 600; letter-spacing: 0.04em; }
+.book .by { color: var(--fog); font-size: 0.9rem; }
+.book p { color: var(--muted); font-size: 0.95rem; margin: 0.4rem 0; }
+.book .tag { font-family: var(--display); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); }
+.group { margin-top: 28px; }
+.srclist { margin-top: 12px; display: grid; gap: 8px; padding-left: 1.4rem; }
+.srclist li { color: var(--muted); font-size: 0.92rem; }
+.srclist .read { color: var(--fog); font-size: 0.85rem; }
+footer { margin-top: 48px; color: var(--fog); font-size: 0.85rem; border-top: 1px solid var(--line); padding-top: 16px; }
+
+@media (max-width: 880px) {
+  .loop, .model, .value, .short { grid-template-columns: minmax(0, 1fr); }
+  .detail { position: static; }
+  .meet, .books { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 560px) {
+  .tiles, .fork { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+</style>
+<style>
+.sitebar { max-width: 1120px; margin: 0 auto; padding-top: 16px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; font-family: var(--display); font-weight: 600; }
+.sitebar a { color: var(--text); text-decoration: none; display: inline-flex; align-items: center; gap: 10px; }
+.sitebar a:hover { color: var(--gold); }
+</style>
+</head>
+<body>
+<div class="sitebar"><a href="index.html"><svg aria-hidden="true" width="32" height="32" viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" fill="#1E4943" stroke="#F2B84B" stroke-width="2"/><polygon points="5,26 14,13 19,20 23,15 31,26" fill="#F2B84B"/></svg><span>Dave Wiseman</span></a><a href="uses.html">Good uses of AI</a></div>
+<div class="page">
+  <header class="hero">
+    <p class="eyebrow">A concept explorer</p>
+    <h1>Paying for the good</h1>
+    <p class="lede">What happens to a safety business when it works? Cameras on school buses catch drivers who pass a stopped bus. If more drivers stop, fines fall and the camera company earns less. That turns out to be the right way to think about success, as long as nobody depends on the fines.</p>
+  </header>
+
+  <nav class="tabs" aria-label="Views">
+    <a href="#explore" data-view="explore">Explore</a>
+    <a href="#essay" data-view="essay">Essay</a>
+    <a href="#reading" data-view="reading">Who to read</a>
+    <a href="#sources" data-view="sources">Sources</a>
+  </nav>
+
+  <div id="view-explore" class="view">
+    <section aria-labelledby="short-h">
+      <h2 id="short-h">The short version</h2>
+      <div class="short">
+        <div>
+          <h3>Why it matters</h3>
+          <p>When a safety program works, the money it brings in falls. That's the sign it's working. The value is the harm avoided, not the fines collected. The thing to watch is anyone who needs the fines to keep coming.</p>
+        </div>
+        <div>
+          <h3>How to read the model</h3>
+          <p>The first chart shows what the camera company earns under three kinds of contract, for the same program and the same drivers. Paid a share of fines, it earns less as passing falls. Paid a flat fee, it earns the same. Paid for results, it earns more. Only the last two reward success.</p>
+        </div>
+        <div>
+          <h3>What it means for you</h3>
+          <ul>
+            <li><strong>If you fund or run a program:</strong> pay a flat fee or pay for results counted by someone independent. Keep fine money out of operating budgets.</li>
+            <li><strong>If you live with one:</strong> judge it by harm avoided, not tickets written, and ask to see the data.</li>
+            <li><strong>If you build one:</strong> measure the harm it prevents. That's the value it adds to a community, and the part nobody counts yet.</li>
+          </ul>
+        </div>
+        <div class="scale">
+          <h3>The honest scale</h3>
+          <p>Passing drivers kill at most about 3 school-age children a year across the whole US <span class="src">(<a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813819" target="_blank" rel="noopener">NHTSA</a>, <span class="grade">A</span>)</span>. One 1,000-bus program prevents a small fraction of one death a year. The case for these cameras rests on what isn't counted yet: injuries, near misses and the habit of stopping.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="loop" aria-labelledby="loop-h">
+      <h2 id="loop-h">How the pieces connect</h2>
+      <p class="intro">Pick a step to see the evidence behind it.</p>
+      <div class="loop">
+        <div class="flow" id="flow"></div>
+        <aside class="detail" id="detail" aria-live="polite"></aside>
+      </div>
+    </section>
+
+    <section id="model" aria-labelledby="model-h">
+      <h2 id="model-h">The model</h2>
+      <p class="intro">A program you can tune. Every starting number comes from a source, shown under each slider and in the table below. Slider ranges stay inside what the data supports.</p>
+      <div class="model">
+        <form class="controls" id="controls" onsubmit="return false">
+          <fieldset>
+            <legend>The program</legend>
+            <div class="ctl"><label for="buses">Buses with cameras <output id="buses-o"></output></label><input type="range" id="buses" min="100" max="3000" step="50" value="1000"><span class="hint" id="buses-h"></span></div>
+            <div class="ctl"><label for="ppd">Illegal passes per bus per school day <output id="ppd-o"></output></label><input type="range" id="ppd" min="0.2" max="1" step="0.05" value="0.55"><span class="hint">0.55 in the 2026 one-day count by 101,334 drivers (B). 180 school days.</span></div>
+            <div class="ctl"><label for="paid">Share of passes that end in a paid ticket <output id="paid-o"></output></label><input type="range" id="paid" min="0.2" max="0.8" step="0.05" value="0.5"><span class="hint">Not published. In Florida, 70% of notices sent were paid (A).</span></div>
+            <div class="ctl"><label for="fine">Fine <output id="fine-o"></output></label><input type="range" id="fine" min="100" max="300" step="25" value="250"><span class="hint">Florida $200, Montgomery County MD $250, Colorado's cap $300 (all A).</span></div>
+          </fieldset>
+          <fieldset>
+            <legend>How much passing falls</legend>
+            <div class="presets" role="group" aria-label="Scenarios">
+              <button type="button" data-cut="0">What school bus studies found (no clear drop)</button>
+              <button type="button" data-cut="0.75">Like NYC speed cameras (75%)</button>
+              <button type="button" data-cut="0.9">My goal, 90% to 99% stopping</button>
+            </div>
+            <div class="ctl"><label for="cut">Drop in passing once it's working <output id="cut-o"></output></label><input type="range" id="cut" min="0" max="0.95" step="0.05" value="0.75"><span class="hint" id="cut-h"></span></div>
+            <div class="ctl"><label for="ramp">Years to get there <output id="ramp-o"></output></label><input type="range" id="ramp" min="1" max="6" step="1" value="2"><span class="hint">New York's speed camera effects took about six months to show (A).</span></div>
+            <label class="check"><input type="checkbox" id="off"> <span>Switch the cameras off after year 5. When cities turned off red-light cameras, fatal red-light crashes ran 30% above expected (A). Here, half the gain is lost.</span></label>
+          </fieldset>
+          <fieldset>
+            <legend>Three ways to pay the vendor</legend>
+            <div class="ctl"><label for="share">Share of fines <output id="share-o"></output></label><input type="range" id="share" min="0" max="0.7" step="0.05" value="0.5"><span class="hint">Rhode Island's law sets 30% (B). The 50% starting point is our assumption.</span></div>
+            <div class="ctl"><label for="flat">Flat fee per bus per year <output id="flat-o"></output></label><input type="range" id="flat" min="1000" max="6000" step="100" value="2700"><span class="hint">We found no official published price for a flat-fee contract, so this starting point is our assumption.</span></div>
+            <div class="ctl"><label for="base">Paid for results: base per bus per year <output id="base-o"></output></label><input type="range" id="base" min="0" max="4000" step="100" value="1000"></div>
+            <div class="ctl"><label for="bonus">Paid for results: per pass prevented <output id="bonus-o"></output></label><input type="range" id="bonus" min="0" max="100" step="5" value="25"><span class="hint">Our assumption. We found no school bus contract paid this way. Results would be counted by someone independent.</span></div>
+          </fieldset>
+          <fieldset>
+            <legend>Lives</legend>
+            <div class="ctl"><label for="deaths">US school-age deaths a year from passing drivers <output id="deaths-o"></output></label><input type="range" id="deaths" min="0.5" max="3.3" step="0.1" value="1.8"><span class="hint">1.8 is the 2020-2024 average in the national loading-zone survey (B). 3.3 is the federal upper bound: all school-age pedestrians killed by vehicles other than the bus (A).</span></div>
+          </fieldset>
+        </form>
+
+        <div class="results">
+          <div class="tiles" id="tiles"></div>
+          <div class="chart" id="c-pay">
+            <h3>What the camera company earns each year</h3>
+            <p class="sub">Same program, same drivers. Only the contract changes.</p>
+            <div class="legend" id="pay-legend"></div>
+            <svg id="pay-svg" role="img" aria-label="Line chart of vendor income by year under three contracts"></svg>
+          </div>
+          <div class="chart" id="c-passes">
+            <h3>Illegal passes each year</h3>
+            <svg id="passes-svg" role="img" aria-label="Line chart of illegal passes by year"></svg>
+          </div>
+          <button type="button" class="tablebtn" id="tablebtn" aria-expanded="false">Show the numbers as a table</button>
+          <div class="tablewrap" id="tablewrap" hidden></div>
+          <div class="hard">
+            <h3>Counting lives saved</h3>
+            <div class="nums" id="hardnums"></div>
+            <p>Counting deaths alone, each illegal pass carries well under a dollar of expected harm, while fines run $200 to $300. That gap says the fine is doing a different job: it deters, and most of what it prevents (injuries, near misses, a culture of not stopping) isn't counted anywhere. For comparison, about 1.16 million people die in road crashes worldwide each year, and road injuries are the leading cause of death for ages 5 to 29 <span class="src">(<a href="https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries" target="_blank" rel="noopener">WHO</a>, <span class="grade">A</span>)</span>.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="margin-top:28px">Where the starting numbers come from</h3>
+      <div class="tablewrap"><table class="inputs" id="inputs"></table></div>
+    </section>
+
+    <section id="value" aria-labelledby="value-h">
+      <h2 id="value-h">Valuing what markets don't pay for</h2>
+      <p class="intro">A stay-at-home parent who invests in their kid earns nothing, and the value to society is very high. Federal health economists put a standard value on unpaid time.</p>
+      <div class="value">
+        <div class="ctl"><label for="hrs">Hours a week of unpaid care <output id="hrs-o"></output></label><input type="range" id="hrs" min="0" max="80" step="1" value="40"><span class="hint">At $20.27 an hour (HHS, 2026, A).</span></div>
+        <div><div class="big" id="hrs-v"></div><p class="src">a year, at the federal standard rate. Unpaid household work in the US was worth about $5.7 trillion in 2024 (BEA, A).</p></div>
+      </div>
+    </section>
+
+    <section id="meet" aria-labelledby="meet-h">
+      <h2 id="meet-h">Where the two views meet</h2>
+      <div class="meet">
+        <div><h3>Success shrinks revenue</h3><ul><li>Falling fines are the sign it's working.</li><li>A company that works itself out of a job has done its job.</li><li>We should value good that markets don't pay for.</li></ul></div>
+        <div><h3>Watch the dependence</h3><ul><li>Whoever needs the fines has a reason to keep violations high.</li><li>Good habits fade when enforcement stops.</li><li>A small flat fine can read as a price, and it weighs more on some families than others.</li></ul></div>
+        <div><h3>Designs that fit both</h3><ul><li>A flat fee with service standards, or pay for results counted independently.</li><li>Fund public services at a steady baseline, separate from fines.</li><li>Keep the chance of being caught high and fines fair.</li><li>Open the data so someone without a stake can measure the good.</li></ul></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="view-essay" class="view" hidden>
+    <article class="essay">
+<p>Picture cameras on school buses that catch drivers who pass a stopped bus. Say 90% of drivers stop today, and after a few years it's 95% or 99%. That's a whole community changing how it behaves, and it's a good change.</p>
+<p>The obvious objection: if the camera company is paid from the fines, it earns less as drivers improve. Doesn't that put the company against its own goal?</p>
+<p>I don't think so. Falling revenue is what success looks like. The value is in the harm avoided, not the fines collected. A company that works itself out of a job has done its job.</p>
+<p>The research mostly backs that up. It also turned up a few things worth getting right.</p>
+<h2>A fine is supposed to shrink</h2>
+<p>A charge for harm people push onto others exists to change behavior. When it works, it collects less. <a href="https://www.econlib.org/library/NPDBooks/Pigou/pgEW20.html" target="_blank" rel="noopener">Pigou, <em>The Economics of Welfare</em>, 1932 ed.</a> (<span class="grade">A</span>) Three charges show what success looks like:</p>
+<ul><li><strong>Ireland's plastic bag levy (2002):</strong> revenue started falling in 2008, as expected, and bags dropped from about 5% of litter to 0.13%. <a href="https://ieep.eu/uploads/articles/attachments/0817a609-f2ed-4db0-8ae0-05f1d75fbaa4/IE%20Plastic%20Bag%20Levy%20final.pdf" target="_blank" rel="noopener">IEEP for the European Commission, 2016</a> (<span class="grade">B</span>)</li><li><strong>London's congestion charge:</strong> it cut traffic more than forecast, so it raised less than forecast. <a href="https://ifs.org.uk/sites/default/files/output_url_files/ch5.pdf" target="_blank" rel="noopener">Fullerton, Leicester and Smith, Mirrlees Review, 2010</a> (<span class="grade">B</span>)</li><li><strong>Federal tobacco taxes:</strong> revenue fell more than 30% in ten years, partly because fewer people smoke. <a href="https://www.gao.gov/blog/tobacco-tax-revenue-has-gone-smoke-and-not-entirely-reason-you-think" target="_blank" rel="noopener">GAO, 2025</a> (<span class="grade">A</span>)</li></ul>
+<p>A fine moves money from one pocket to another. It isn't a measure of value. <a href="https://doi.org/10.1086/259394" target="_blank" rel="noopener">Becker, <em>Journal of Political Economy</em>, 1968</a> (<span class="grade">A</span>) Road safety groups now tell cities to expect falling camera revenue and to treat zero tickets as the goal. <a href="https://www.iihs.org/media/431e551b-3f64-4591-8e30-ad35a069f41f/wq17YQ/News/2021/050621%20auto%20enforcement/AE-checklist-May-2021.pdf" target="_blank" rel="noopener">AAA, Advocates, GHSA, IIHS and NSC, 2021</a> (<span class="grade">B</span>)</p>
+<h2>The danger is depending on the money</h2>
+<p>Revenue going down isn't the risk. The risk is someone who needs it to stay up.</p>
+<ul><li><strong>Ferguson, Missouri:</strong> fines and fees grew from about 12% to about 23% of the city's general fund, and police were pushed to write more tickets. <a href="https://www.justice.gov/sites/default/files/opa/press-releases/attachments/2015/03/04/ferguson_police_department_report.pdf" target="_blank" rel="noopener">US Department of Justice, 2015</a> (<span class="grade">A</span>)</li><li><strong>North Carolina:</strong> counties issued more tickets in the year after their revenue fell. <a href="https://doi.org/10.1086/589702" target="_blank" rel="noopener">Garrett and Wagner, 2009</a> (<span class="grade">A</span>)</li><li><strong>Dallas:</strong> a camera company's CEO admitted paying local officials more than $3.5 million for school bus camera contracts. The school transportation agency closed in 2017 with about $103 million in debt. <a href="https://www.justice.gov/usao-ndtx/pr/bribe-payer-dcs-scheme-sentenced-7-years-federal-prison-ordered-pay-125m-restitution" target="_blank" rel="noopener">US Attorney, Northern District of Texas, 2019</a> (<span class="grade">A</span>)</li></ul>
+<p>The more a number drives decisions, the more pressure there is to bend it. <a href="https://doi.org/10.1016/0149-7189(79)90048-X" target="_blank" rel="noopener">Campbell, 1979</a> (<span class="grade">A</span>)</p>
+<p>A community that comes to depend on fine money is pointing at a bigger question: which services do we want, and how should we pay for them? We still want police and other public servants funded at a steady baseline. If most people follow the rules, officers can spend less time writing tickets and more time on the work we'd want from them anyway: educating people, helping, looking after the community. Keeping fine revenue separate from operating budgets is already the recommended practice. <a href="https://www.usccr.gov/files/pubs/2017/Statutory_Enforcement_Report2017.pdf" target="_blank" rel="noopener">US Commission on Civil Rights, 2017</a> (<span class="grade">A</span>)</p>
+<h2>Good habits need upkeep</h2>
+<p>When large US cities switched off their red-light cameras, fatal red-light-running crashes ran 30% higher than expected. <a href="https://doi.org/10.1016/j.jsr.2017.02.019" target="_blank" rel="noopener">Hu and Cicchino, 2017</a> (<span class="grade">A</span>; paid for by the Insurance Institute for Highway Safety, which auto insurers fund) Irish bag use crept back up until the levy was raised (<span class="grade">B</span>, IEEP).</p>
+<p>So there's probably a steady state worth reaching and holding, and holding it takes ongoing tuning. Fines aren't the only lever:</p>
+<ul><li><strong>The chance of being caught matters more than the size of the fine.</strong> <a href="https://nij.ojp.gov/topics/articles/five-things-about-deterrence" target="_blank" rel="noopener">National Institute of Justice, 2016</a> (<span class="grade">A</span>)</li><li><strong>Telling people what their neighbors do works.</strong> Adding social-norm messages to UK tax letters raised payment, at no extra cost. <a href="https://doi.org/10.1016/j.jpubeco.2017.02.003" target="_blank" rel="noopener">Hallsworth, List, Metcalfe and Vlaev, 2017</a> (<span class="grade">A</span>)</li><li><strong>Street design does work cameras can't.</strong> In Santiago, Chile, cameras on ordinary bus lanes didn't speed up buses, while bus-only streets did. <a href="https://economia.uc.cl/wp-content/uploads/2026/08/1-s2.0-S0094119025000166-main.pdf" target="_blank" rel="noopener">González and Silva, <em>Journal of Urban Economics</em>, 2025</a> (<span class="grade">A</span>)</li></ul>
+<h2>A small fine can become a price</h2>
+<p>Israeli daycare centers added a small fine for late pickups. Late pickups nearly doubled and stayed high after the fine was removed. <a href="https://doi.org/10.1086/468061" target="_blank" rel="noopener">Gneezy and Rustichini, 2000</a> (<span class="grade">A</span>) Parents treated it as the price of a little extra childcare.</p>
+<p>That also means a flat fine lands differently on different people: some parents could easily afford it, and others couldn't. Fines that scale with income spread the weight more fairly. In Finland, larger income-based speeding fines cut repeat offenses by 15% over six months, mostly among higher earners. <a href="https://doi.org/10.1093/restud/rdag071" target="_blank" rel="noopener">Kaila, <em>Review of Economic Studies</em>, 2026</a> (<span class="grade">A</span>)</p>
+<p>The message has to stay clear: passing a school bus is wrong, not just costly.</p>
+<h2>How to pay for the good</h2>
+<p>If falling revenue means success, the contract should pay for success:</p>
+<ol><li><strong>A flat fee with service standards.</strong> A 2023 federal guide calls this the model most often used for US speed camera programs. <a href="https://www.pedbikeinfo.org/resources/resources_details.php?id=5964" target="_blank" rel="noopener">FHWA and NHTSA guide, 2023</a> (<span class="grade">A</span>) Colorado's 2025 school bus camera law also bars paying the vendor from fines or by quota. <a href="https://leg.colorado.gov/bill_files/40949/download" target="_blank" rel="noopener">Colorado HB25-1230</a> (<span class="grade">A</span>)</li><li><strong>Pay for verified results.</strong> The first social impact bond paid out only when reoffending fell at least 7.5% against a comparison group. It fell 9%. <a href="https://assets.publishing.service.gov.uk/media/5a759df0ed915d506ee80304/peterborough-social-impact-bond-cohort-2-results-report.pdf" target="_blank" rel="noopener">UK Ministry of Justice, 2017</a> (<span class="grade">A</span>) At Rikers Island the target was missed, and the city paid nothing. <a href="https://www.vera.org/publications/impact-evaluation-of-the-adolescent-behavioral-learning-experience-able-program-at-rikers-island" target="_blank" rel="noopener">Vera Institute, 2015</a> (<span class="grade">A</span>) Someone independent has to do the counting.</li><li><strong>Keep fine money away from whoever decides how much to enforce</strong> (US Commission on Civil Rights, above).</li><li><strong>Open the data.</strong> Two federal studies couldn't show whether school bus cameras reduce passing, partly because the camera operator shared only totals. <a href="https://rosap.ntl.bts.gov/view/dot/78356" target="_blank" rel="noopener">NHTSA, 2024</a> (<span class="grade">B</span>)</li></ol>
+<h2>Valuing what markets don't pay for</h2>
+<p>A stay-at-home parent who invests in their kid earns nothing, and the value to society is very high. We already know how to count some of that:</p>
+<ul><li><strong>Unpaid household work in the US:</strong> about $5.7 trillion in 2024. <a href="https://www.bea.gov/research/papers/2026/introducing-expanded-indicators-us-household-production-economic-statistics" target="_blank" rel="noopener">BEA, 2026</a> (<span class="grade">A</span>)</li><li><strong>A standard rate for unpaid time:</strong> federal health economists use $20.27 an hour, about $42,000 a year for 40 hours a week (our arithmetic). <a href="https://aspe.hhs.gov/sites/default/files/documents/2d83af5823915d81871334ee08ad03d9/Standard-RIA-Values-2026.pdf" target="_blank" rel="noopener">HHS, 2026</a> (<span class="grade">A</span>)</li><li><strong>A life saved:</strong> about $14.1 million (HHS, A).</li></ul>
+<p>We rarely reward that value. Paying a safety company for keeping kids safe, instead of for catching drivers, would be one small step toward recognizing it.</p>
+<h2>The honest scale</h2>
+<p>School bus cameras won't save thousands of lives. From 2015 to 2024, vehicles other than the bus killed 33 school-age pedestrians in school-transportation crashes nationally, about 3 a year at most. <a href="https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813819" target="_blank" rel="noopener">NHTSA, 2026</a> (<span class="grade">A</span>) For comparison, about 1.16 million people die in road crashes worldwide each year. <a href="https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries" target="_blank" rel="noopener">WHO, 2026</a> (<span class="grade">A</span>)</p>
+<p>Most of the value is in injuries, near misses and the habit of stopping, and nobody measures those well yet. A safer bus stop, like a well-raised kid, is worth far more than any revenue line shows. Measuring that good well is how we start to value it properly.</p>
+    </article>
+  </div>
+
+  <div id="view-reading" class="view" hidden>
+    <section aria-labelledby="reading-h">
+      <h2 id="reading-h">Who to read</h2>
+      <p class="intro">The books most relevant to these ideas, including people who did the practical work. Start with the three marked in gold. Each title links to its library record; the notes are our summaries.</p>
+      <div id="booklist"></div>
+    </section>
+  </div>
+
+  <div id="view-sources" class="view" hidden>
+    <section aria-labelledby="sources-h">
+      <h2 id="sources-h">Sources</h2>
+      <p class="intro">Every source used on these pages, with its grade and how much of it we read. <span class="grade">A</span> official statistics, laws or peer-reviewed research. <span class="grade">B</span> large studies with published methods. <span class="grade c">C</span> news reports of contracts or vendor data, used only for slider starting points where nothing better exists. Every link was checked on 2026-11-09.</p>
+      <ol class="srclist" id="sourcelist"></ol>
+    </section>
+  </div>
+
+  <footer>Part of Dave Wiseman's catalog of good uses of AI, November 2026. The model is an illustration with sourced starting points, not a forecast.</footer>
+</div>
+
+<script>
+(function () {
+  // [label, url, grade, what we read]
+  const S = {
+    nhtsaFars: ['NHTSA, School-Transportation-Related Traffic Crashes: 2015-2024 Data, 2026', 'https://crashstats.nhtsa.dot.gov/Api/Public/ViewPublication/813819', 'A', 'Full text'],
+    ksde: ['Kansas State Department of Education, National School Bus Loading and Unloading Survey, 2025', 'https://www.ksde.gov/docs/default-source/sf/nsb-lus-24-25.pdf?sfvrsn=79d945ea_3', 'B', 'Full text'],
+    nasdpts: ['NASDPTS, illegal passing one-day count, 2026', 'https://nasdpts.org/resources/IllegalPassing/2026/2026%20Press%20Release.pdf', 'B', 'Full release'],
+    nhtsa21: ['NHTSA, Examination of Three Districts Implementing Stop-Arm Camera Programs, 2021', 'https://rosap.ntl.bts.gov/view/dot/55244', 'B', 'Summary, results, conclusions, literature review'],
+    nhtsa24: ['NHTSA, Reducing Illegal Passing of Stopped School Buses: Demonstration Project, 2024', 'https://rosap.ntl.bts.gov/view/dot/78356', 'B', 'Abstract, methods, results, discussion'],
+    florida: ['Florida Highway Safety and Motor Vehicles, school bus camera report, 2025', 'https://www.flhsmv.gov/pdf/cabinetreports/school-bus-school-zone_summary_fy24-25.pdf', 'A', 'Full text'],
+    montgomery: ['Montgomery County Public Schools, stop-arm camera contract approval, 2026', 'https://ww2.montgomeryschoolsmd.org/departments/procurement/uploads/8120.1/08.12%20ADOPTED%20Cont%20Apprv%20RFP%208120.1%20Bus%20Stop-Arm%20Camera%20Safety%20Prog.pdf', 'A', 'Full text'],
+    colorado: ['Colorado HB25-1230, signed 2025', 'https://leg.colorado.gov/bill_files/40949/download', 'A', 'Full act'],
+    ncsl: ['NCSL, State School Bus Stop-Arm Camera Laws, 2025', 'https://www.ncsl.org/research/transportation/state-school-bus-stop-arm-camera-laws.aspx', 'B', 'Full table'],
+    dallas: ['US Attorney, Northern District of Texas, Dallas County Schools bribery sentencing, 2019', 'https://www.justice.gov/usao-ndtx/pr/bribe-payer-dcs-scheme-sentenced-7-years-federal-prison-ordered-pay-125m-restitution', 'A', 'Full release'],
+    nyc: ['Gao, Yang, Xu, Ozbay and Sharma, fixed speed cameras in New York City, Transportation Research Interdisciplinary Perspectives, 2025', 'https://doi.org/10.1016/j.trip.2025.101373', 'A', 'Abstract'],
+    hu: ['Hu and Cicchino, turning red light cameras on and off, Journal of Safety Research, 2017 (paid for by IIHS, which auto insurers fund)', 'https://doi.org/10.1016/j.jsr.2017.02.019', 'A', 'Abstract'],
+    santiago: ['González and Silva, bus lane cameras in Santiago, Journal of Urban Economics, 2025', 'https://economia.uc.cl/wp-content/uploads/2026/08/1-s2.0-S0094119025000166-main.pdf', 'A', 'Full text'],
+    fhwa: ['FHWA and NHTSA, Speed Safety Camera Program Planning and Operations Guide, 2023', 'https://www.pedbikeinfo.org/resources/resources_details.php?id=5964', 'A', 'Sections 5.3, 5.6 and 6.2.2'],
+    checklist: ['AAA, Advocates, GHSA, IIHS and NSC, automated enforcement checklist, 2021', 'https://www.iihs.org/media/431e551b-3f64-4591-8e30-ad35a069f41f/wq17YQ/News/2021/050621%20auto%20enforcement/AE-checklist-May-2021.pdf', 'B', 'Full checklist'],
+    pigou: ['Pigou, The Economics of Welfare, 1932 edition', 'https://www.econlib.org/library/NPDBooks/Pigou/pgEW20.html', 'A', 'Part II, chapter IX'],
+    becker: ['Becker, Crime and Punishment: An Economic Approach, Journal of Political Economy, 1968', 'https://doi.org/10.1086/259394', 'A', 'Full text'],
+    nij: ['National Institute of Justice, Five Things About Deterrence, 2016', 'https://nij.ojp.gov/topics/articles/five-things-about-deterrence', 'A', 'Full page'],
+    gneezy: ['Gneezy and Rustichini, A Fine Is a Price, Journal of Legal Studies, 2000', 'https://doi.org/10.1086/468061', 'A', 'Full text'],
+    hallsworth: ['Hallsworth, List, Metcalfe and Vlaev, social norms in tax letters, Journal of Public Economics, 2017', 'https://doi.org/10.1016/j.jpubeco.2017.02.003', 'A', 'Abstract'],
+    kaila: ['Kaila, How Do People React to Income-Based Fines?, Review of Economic Studies, 2026', 'https://doi.org/10.1093/restud/rdag071', 'A', 'Abstract'],
+    ieep: ['IEEP for the European Commission, Irish plastic bag levy case study, 2016', 'https://ieep.eu/uploads/articles/attachments/0817a609-f2ed-4db0-8ae0-05f1d75fbaa4/IE%20Plastic%20Bag%20Levy%20final.pdf', 'B', 'Full text'],
+    ifs: ['Fullerton, Leicester and Smith, Environmental Taxes, Mirrlees Review, 2010', 'https://ifs.org.uk/sites/default/files/output_url_files/ch5.pdf', 'B', 'Relevant sections'],
+    gao: ['GAO, tobacco tax revenue, 2025', 'https://www.gao.gov/blog/tobacco-tax-revenue-has-gone-smoke-and-not-entirely-reason-you-think', 'A', 'Full post'],
+    ferguson: ['US Department of Justice, Investigation of the Ferguson Police Department, 2015', 'https://www.justice.gov/sites/default/files/opa/press-releases/attachments/2015/03/04/ferguson_police_department_report.pdf', 'A', 'Summary and revenue sections'],
+    garrett: ['Garrett and Wagner, Red Ink in the Rearview Mirror, Journal of Law and Economics, 2009', 'https://doi.org/10.1086/589702', 'A', 'Abstract and methods'],
+    campbell: ['Campbell, Assessing the Impact of Planned Social Change, 1979', 'https://doi.org/10.1016/0149-7189(79)90048-X', 'A', 'Full text'],
+    usccr: ['US Commission on Civil Rights, Targeted Fines and Fees Against Communities of Color, 2017', 'https://www.usccr.gov/files/pubs/2017/Statutory_Enforcement_Report2017.pdf', 'A', 'Executive summary and findings'],
+    peterborough: ['UK Ministry of Justice, Peterborough social impact bond final results, 2017', 'https://assets.publishing.service.gov.uk/media/5a759df0ed915d506ee80304/peterborough-social-impact-bond-cohort-2-results-report.pdf', 'A', 'Full text'],
+    rikers: ['Vera Institute of Justice, Rikers Island ABLE program evaluation, 2015', 'https://www.vera.org/publications/impact-evaluation-of-the-adolescent-behavioral-learning-experience-able-program-at-rikers-island', 'A', 'Summary of findings'],
+    bea: ['BEA, expanded indicators of US household production, 2026', 'https://www.bea.gov/research/papers/2026/introducing-expanded-indicators-us-household-production-economic-statistics', 'A', 'Data file and abstract'],
+    hhs: ['HHS ASPE, Standard Values for Regulatory Analysis, 2026', 'https://aspe.hhs.gov/sites/default/files/documents/2d83af5823915d81871334ee08ad03d9/Standard-RIA-Values-2026.pdf', 'A', 'Key points and value-of-life section'],
+    nhtsaVal: ['NHTSA, SAFE Vehicles Rule III, 2026 (value per death prevented)', 'https://www.govinfo.gov/content/pkg/FR-2026-09-30/html/2026-19964.htm', 'A', 'Section II.H.4'],
+    ilo: ['ILO, Care work and care jobs for the future of decent work, 2018', 'https://www.ilo.org/sites/default/files/wcmsp5/groups/public/@dgreports/@dcomm/@publ/documents/publication/wcms_633166.pdf', 'A', 'Executive summary'],
+    stiglitz: ['Stiglitz, Sen and Fitoussi, commission report, 2009', 'https://ec.europa.eu/eurostat/documents/8131721/8131772/Stiglitz-Sen-Fitoussi-Commission-report.pdf', 'A', 'Recommendations'],
+    mod: ['March of Dimes, history', 'https://www.marchofdimes.org/about-us/mission/history/history-march-dimes', 'B', 'Full page'],
+    who: ['World Health Organization, road traffic injuries fact sheet, 2026', 'https://www.who.int/news-room/fact-sheets/detail/road-traffic-injuries', 'A', 'Key facts']
+  };
+  const SHORT = { nhtsaFars: 'NHTSA, 2026', ksde: 'Kansas survey, 2025', nasdpts: 'NASDPTS, 2026', nhtsa21: 'NHTSA, 2021', nhtsa24: 'NHTSA, 2024', florida: 'Florida, 2025', montgomery: 'Montgomery County, 2026', colorado: 'Colorado HB25-1230', ncsl: 'NCSL, 2025', dallas: 'US Attorney, 2019', nyc: 'Gao et al., 2025', hu: 'Hu and Cicchino, 2017', santiago: 'González and Silva, 2025', fhwa: 'FHWA and NHTSA, 2023', checklist: 'Safety groups, 2021', pigou: 'Pigou, 1932', becker: 'Becker, 1968', nij: 'NIJ, 2016', gneezy: 'Gneezy and Rustichini, 2000', hallsworth: 'Hallsworth et al., 2017', kaila: 'Kaila, 2026', ieep: 'IEEP, 2016', ifs: 'Fullerton et al., 2010', gao: 'GAO, 2025', ferguson: 'US DOJ, 2015', garrett: 'Garrett and Wagner, 2009', campbell: 'Campbell, 1979', usccr: 'US Commission on Civil Rights, 2017', peterborough: 'UK Ministry of Justice, 2017', rikers: 'Vera Institute, 2015', bea: 'BEA, 2026', hhs: 'HHS, 2026', nhtsaVal: 'NHTSA, 2026', ilo: 'ILO, 2018', stiglitz: 'Stiglitz, Sen and Fitoussi, 2009', mod: 'March of Dimes', who: 'WHO, 2026' };
+  const cite = (k, extra) => { const s = S[k]; return '<span class="src">(<a href="' + s[1] + '" target="_blank" rel="noopener">' + (SHORT[k] || s[0].split(',')[0]) + (extra || '') + '</a>, <span class="grade' + (s[2] === 'C' ? ' c' : '') + '">' + s[2] + '</span>)</span>'; };
+
+  // ---------------- Views
+  const views = ['explore', 'essay', 'reading', 'sources'];
+  function route() {
+    const h = location.hash.replace('#', '');
+    const v = views.includes(h) ? h : 'explore';
+    views.forEach(n => { document.getElementById('view-' + n).hidden = n !== v; });
+    document.querySelectorAll('.tabs a').forEach(a => { if (a.dataset.view === v) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
+    if (v === 'explore') requestAnimationFrame(render);
+  }
+  window.addEventListener('hashchange', () => { route(); window.scrollTo(0, 0); });
+
+  // ---------------- How the pieces connect
+  const NODES = [
+    { id: 'harm', n: '1', t: 'The harm', s: 'Children hit near school buses', gist: 'The person passing doesn\'t carry the risk they create.',
+      body: ['From 2015 to 2024, 77 school-age pedestrians died in school-transportation crashes. A school bus hit 44 of them; other vehicles hit 33. ' + cite('nhtsaFars'),
+             'In 2024-25, all six deaths in school bus loading zones were caused by the bus itself. ' + cite('ksde'),
+             'Passing is common: on one day in 2026, 101,334 bus drivers in 39 states and DC counted 56,024 illegal passes. ' + cite('nasdpts')] },
+    { id: 'rule', n: '2', t: 'A rule with a price', s: 'A charge for harm pushed onto others', gist: 'Make people pay for harm they\'d otherwise push onto others.',
+      body: ['The idea goes back a century: close the gap between what something costs you and what it costs everyone else. ' + cite('pigou'),
+             'A fine moves money from one pocket to another. The value is in the harm avoided, not the fines collected. ' + cite('becker')] },
+    { id: 'certainty', n: '3', t: 'The chance of being caught', s: 'Cameras make it much higher', gist: 'Getting caught matters more than the size of the fine.',
+      body: ['Certainty of being caught deters more than the size of the punishment. ' + cite('nij'),
+             'Cameras record far more passing than police see: at least 35 times more in one federal study. ' + cite('nhtsa21')] },
+    { id: 'change', n: '4', t: 'Drivers change', s: 'Or do they?', gist: 'Proven for speed cameras. Not yet shown for school bus cameras.',
+      body: ['For school bus cameras, two federally funded studies in five districts couldn\'t show a clear drop in passing. ' + cite('nhtsa21') + ' ' + cite('nhtsa24'),
+             'For school-zone speed cameras it is shown: across 1,821 New York City cameras, speeding tickets fell 75% and crashes fell 14%. ' + cite('nyc'),
+             'Watch the message. In Israeli daycares, a small late-pickup fine nearly doubled late pickups, because parents read it as a price. ' + cite('gneezy')] },
+    { id: 'fewer', n: '5', t: 'Fewer violations', s: 'From 90% stopping to 99%', gist: 'My goal.',
+      david: '"If we were to baseline how many people stop today, it might be 90% of people. But then after we run that company for a while, maybe it\'s 95% or 99%. And that feels like a societal level change in behavior."',
+      body: ['Going from 90% to 99% stopping cuts passing by 90%. The best evidence for any camera program is a 75% drop, for speed cameras in New York. ' + cite('nyc')] },
+    { id: 'revenue', n: '6', t: 'Less fine revenue', s: 'The sign that it\'s working', gist: 'When a charge works, it collects less.',
+      body: ['Ireland\'s plastic bag levy: revenue started falling in 2008 after six years of growth, as expected. ' + cite('ieep'),
+             'London\'s congestion charge cut traffic more than forecast, so it raised less than forecast. ' + cite('ifs'),
+             'Federal tobacco tax revenue fell more than 30% in ten years. ' + cite('gao'),
+             'Road safety groups tell cities to expect falling camera revenue and to treat zero tickets as the goal. ' + cite('checklist')] },
+    { id: 'success', n: '7a', t: 'Read it as success', s: 'The company did its job', gist: 'My view.',
+      david: '"Yes, that camera vendor will make less money as drivers improve, but the improvement that the drivers make... is generally a net positive for society."',
+      body: ['The value is the harm avoided. Fines collected were never the measure. ' + cite('becker')] },
+    { id: 'pull', n: '7b', t: 'Or feel the pull', s: 'When someone needs the fines', warn: true, gist: 'Watch anyone who needs the fines to keep coming.',
+      body: ['Ferguson: fines grew from about 12% to about 23% of the city\'s general fund, and police were pushed to write more tickets. ' + cite('ferguson'),
+             'North Carolina counties issued more tickets the year after their revenue fell. ' + cite('garrett'),
+             'Dallas: a camera company\'s CEO admitted paying officials more than $3.5 million for school bus camera contracts. The agency closed with about $103 million in debt. ' + cite('dallas'),
+             'The more a number drives decisions, the more pressure there is to bend it. ' + cite('campbell'),
+             'My view: fund police and public services at a steady baseline. If most people follow the rules, officers can spend less time writing tickets and more time educating people and looking after the community. Separating fines from budgets is the recommended practice. ' + cite('usccr')] },
+    { id: 'design', n: '8', t: 'Pay for the good', s: 'Contracts that let success pay', gist: 'Pay for the service or for results. Never per ticket.',
+      body: ['A flat fee with service standards is the most common model for US speed cameras. ' + cite('fhwa'),
+             'Colorado\'s 2025 law bars paying a school bus camera vendor from fines or by quota. ' + cite('colorado'),
+             'Paying for results: the first social impact bond paid out only when reoffending fell at least 7.5% against a comparison group. It fell 9%. ' + cite('peterborough') + ' At Rikers Island the target was missed, and the city paid nothing. ' + cite('rikers')] },
+    { id: 'upkeep', n: '9', t: 'Keep it working', s: 'The job changes; it rarely ends', gist: 'Good habits need ongoing tuning. Fines aren\'t the only lever.',
+      body: ['When large US cities switched off red-light cameras, fatal red-light-running crashes ran 30% above expected. ' + cite('hu'),
+             'Telling people what their neighbors do works: social-norm messages raised tax payment at no extra cost. ' + cite('hallsworth'),
+             'Design does work cameras can\'t: in Santiago, cameras on ordinary bus lanes didn\'t speed up buses, while bus-only streets did. ' + cite('santiago'),
+             'Fines that scale with income spread the weight more fairly. In Finland they cut repeat speeding 15% over six months. ' + cite('kaila'),
+             'Or the organization moves on to the next problem, as the March of Dimes did after the polio vaccine. ' + cite('mod')] },
+    { id: 'value', n: '+', t: 'Value markets miss', s: 'The stay-at-home parent', gist: 'My view.',
+      david: '"A stay-at-home parent doesn\'t make any money, and yet the value to society is just incredibly high."',
+      body: ['Unpaid household work in the US: about $5.7 trillion in 2024. ' + cite('bea'),
+             'Unpaid care worldwide: 16.4 billion hours a day, about 9% of global GDP at minimum wage. ' + cite('ilo'),
+             'A 2009 commission recommended counting non-market activity in measures of how a country is doing. ' + cite('stiglitz'),
+             'Federal agencies already value a life saved at about $14.1 million and unpaid time at $20.27 an hour. ' + cite('hhs')] }
+  ];
+  const flow = document.getElementById('flow');
+  const detail = document.getElementById('detail');
+  const byId = Object.fromEntries(NODES.map(n => [n.id, n]));
+  const btn = n => '<button type="button" class="node' + (n.warn ? ' warn' : '') + '" data-id="' + n.id + '" aria-pressed="false"><span class="n">' + n.n + '</span><span class="t">' + n.t + '<span class="s">' + n.s + '</span></span></button>';
+  const arrow = '<div class="arrow" aria-hidden="true">&darr;</div>';
+  flow.innerHTML = ['harm', 'rule', 'certainty', 'change', 'fewer', 'revenue'].map(id => btn(byId[id])).join(arrow) + arrow +
+    '<div class="fork">' + btn(byId.success) + btn(byId.pull) + '</div>' + arrow + btn(byId.design) + arrow + btn(byId.upkeep) +
+    '<p class="back">&uarr; back to step 3: keep the chance of being caught high</p>' +
+    '<div class="side">' + btn(byId.value) + '</div>';
+  function show(id, focusPanel) {
+    const n = byId[id];
+    flow.querySelectorAll('.node').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.id === id)));
+    detail.innerHTML = '<h3>' + n.n + '. ' + n.t + '</h3><p class="gist">' + n.gist + '</p>' + (n.david ? '<div class="david">' + n.david + '</div>' : '') + '<ul>' + n.body.map(b => '<li>' + b + '</li>').join('') + '</ul>';
+    if (focusPanel && window.matchMedia('(max-width: 880px)').matches) detail.scrollIntoView({ block: 'nearest' });
+  }
+  flow.addEventListener('click', e => { const b = e.target.closest('.node'); if (b) show(b.dataset.id, true); });
+  show('fewer', false);
+
+  // ---------------- The model
+  const $ = id => document.getElementById(id);
+  const US_BUSES = 101334 / 0.262; // drivers implied by the 2026 count: 101,334 drivers were 26.2% of the nation's school bus drivers (B)
+  const DAYS = 180, VSL = 14.1e6, YEARS = 8;
+  const fmtMoney = v => { const a = Math.abs(v); if (a >= 1e9) return '$' + (v / 1e9).toFixed(1) + 'B'; if (a >= 1e6) return '$' + (v / 1e6).toFixed(1) + 'M'; if (a >= 1e3) return '$' + Math.round(v / 1e3) + 'K'; if (a >= 1) return '$' + v.toFixed(2); if (a === 0) return '$0'; return Math.round(v * 100) + '¢'; };
+  const fmtInt = v => Math.round(v).toLocaleString('en-US');
+  const pct = v => { const p = v * 100; return (Math.abs(p - Math.round(p)) < 0.05 ? Math.round(p) : p.toFixed(1)) + '%'; };
+  const fmtOut = {
+    buses: v => fmtInt(v), ppd: v => v.toFixed(2), paid: v => pct(v), fine: v => '$' + v,
+    cut: v => pct(v), ramp: v => v + (v == 1 ? ' year' : ' years'),
+    share: v => pct(v), flat: v => '$' + fmtInt(v), base: v => '$' + fmtInt(v), bonus: v => '$' + v, deaths: v => v.toFixed(1)
+  };
+  const SERIES = [
+    { key: 'share', name: 'Share of fines', color: 'var(--s-share)', dash: '' },
+    { key: 'flat', name: 'Flat fee', color: 'var(--s-flat)', dash: '6 4' },
+    { key: 'results', name: 'Paid for results', color: 'var(--s-results)', dash: '2 3' }
+  ];
+  function read() { const v = {}; Object.keys(fmtOut).forEach(k => { v[k] = parseFloat($(k).value); }); v.off = $('off').checked; return v; }
+  function compute(v) {
+    const base = v.buses * v.ppd * DAYS;
+    const rows = [];
+    for (let y = 1; y <= YEARS; y++) {
+      const on = !(v.off && y > 5);
+      const cut = on ? v.cut * Math.min(1, (y - 1) / v.ramp) : v.cut * Math.min(1, 4 / v.ramp) * 0.5;
+      const passes = base * (1 - cut);
+      const fines = on ? passes * v.paid * v.fine : 0;
+      const lives = v.deaths * (v.buses / US_BUSES) * cut;
+      rows.push({ y, on, cut, stop: 1 - 0.1 * (1 - cut), passes, fines,
+        share: fines * v.share, flat: on ? v.buses * v.flat : 0,
+        results: on ? v.buses * v.base + (base - passes) * v.bonus : 0, lives });
+    }
+    return rows;
+  }
+
+  function drawLines(svg, rows, series, fmtY, tipFor) {
+    const W = svg.clientWidth || 600, H = svg.clientHeight || 240;
+    const m = { l: 56, r: W < 420 ? 12 : 92, t: 12, b: 28 };
+    const iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const max = Math.max(1, ...rows.flatMap(r => series.map(s => r[s.key])));
+    const p10 = Math.pow(10, Math.floor(Math.log10(max))); const f = max / p10;
+    const nice = (f <= 1 ? 1 : f <= 2 ? 2 : f <= 5 ? 5 : 10) * p10;
+    const x = i => m.l + i * iw / (rows.length - 1);
+    const y = v => m.t + ih - (v / nice) * ih;
+    let g = '';
+    for (let k = 0; k <= 4; k++) {
+      const val = nice * k / 4, yy = y(val);
+      g += '<line x1="' + m.l + '" x2="' + (m.l + iw) + '" y1="' + yy + '" y2="' + yy + '" stroke="var(--line)" stroke-width="1"/>';
+      g += '<text x="' + (m.l - 8) + '" y="' + (yy + 4) + '" text-anchor="end" fill="var(--fog)" font-size="11">' + fmtY(val) + '</text>';
+    }
+    rows.forEach((r, i) => { g += '<text x="' + x(i) + '" y="' + (H - 8) + '" text-anchor="middle" fill="var(--fog)" font-size="11">' + (i === 0 ? 'Year 1' : r.y) + '</text>'; });
+    const offStart = rows.findIndex(r => !r.on);
+    if (offStart > 0) { const x0 = (x(offStart - 1) + x(offStart)) / 2; g += '<rect x="' + x0 + '" y="' + m.t + '" width="' + (m.l + iw - x0) + '" height="' + ih + '" fill="var(--bg)" opacity="0.55"/><text x="' + (m.l + iw - 4) + '" y="' + (m.t + 14) + '" text-anchor="end" fill="var(--fog)" font-size="11">cameras off</text>'; }
+    const ends = [];
+    series.forEach(s => {
+      g += '<polyline points="' + rows.map((r, i) => x(i) + ',' + y(r[s.key])).join(' ') + '" fill="none" stroke="' + s.color + '" stroke-width="2.25" stroke-dasharray="' + s.dash + '" stroke-linejoin="round" stroke-linecap="round"/>';
+      rows.forEach((r, i) => { g += '<circle cx="' + x(i) + '" cy="' + y(r[s.key]) + '" r="4" fill="' + s.color + '" stroke="var(--card)" stroke-width="2"/>'; });
+      ends.push({ s, y: y(rows[rows.length - 1][s.key]) });
+    });
+    if (series.length > 1 && W >= 420) {
+      ends.sort((a, b) => a.y - b.y);
+      for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i - 1].y < 14) ends[i].y = ends[i - 1].y + 14;
+      ends.forEach(e => { g += '<text x="' + (m.l + iw + 8) + '" y="' + (e.y + 4) + '" fill="var(--muted)" font-size="11.5">' + e.s.name + '</text>'; });
+    }
+    const w = iw / (rows.length - 1);
+    rows.forEach((r, i) => { g += '<rect class="hit" data-i="' + i + '" x="' + (x(i) - w / 2) + '" y="' + m.t + '" width="' + w + '" height="' + ih + '" fill="transparent"/>'; });
+    g += '<line class="xh" x1="0" x2="0" y1="' + m.t + '" y2="' + (m.t + ih) + '" stroke="var(--fog)" stroke-width="1" opacity="0"/>';
+    svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    svg.innerHTML = g;
+    const box = svg.parentElement; let tip = box.querySelector('.tip');
+    if (!tip) { tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; box.appendChild(tip); }
+    const xh = svg.querySelector('.xh');
+    svg.onmousemove = e => { const t = e.target.closest('.hit'); if (!t) return; const i = +t.dataset.i; xh.setAttribute('x1', x(i)); xh.setAttribute('x2', x(i)); xh.setAttribute('opacity', '0.6'); tip.innerHTML = tipFor(rows[i]); tip.hidden = false; const bx = box.getBoundingClientRect(), sx = svg.getBoundingClientRect(); let left = sx.left - bx.left + x(i) + 12; if (left + 180 > bx.width) left = sx.left - bx.left + x(i) - 192; tip.style.left = Math.max(4, left) + 'px'; tip.style.top = (sx.top - bx.top + 8) + 'px'; };
+    svg.onmouseleave = () => { tip.hidden = true; xh.setAttribute('opacity', '0'); };
+  }
+
+  let last;
+  function render() {
+    if ($('view-explore').hidden) return;
+    const v = read();
+    Object.keys(fmtOut).forEach(k => { const o = $(k + '-o'); if (o) o.textContent = fmtOut[k](v[k]); });
+    $('buses-h').textContent = 'About ' + (v.buses / US_BUSES * 100).toFixed(2) + '% of US school buses. Montgomery County, Maryland has about 1,454 (A); Florida ran 2,635 cameras in 2024-25 (A).';
+    $('cut-h').textContent = 'If 90% of drivers stop today, a ' + pct(v.cut) + ' drop means ' + pct(1 - 0.1 * (1 - v.cut)) + ' stop. School bus camera studies found no clear drop (B); NYC speed cameras cut tickets 75% (A).';
+    document.querySelectorAll('.presets button').forEach(b => b.setAttribute('aria-pressed', String(Math.abs(+b.dataset.cut - v.cut) < 0.001)));
+    const rows = compute(v); last = rows;
+    const first = rows[0];
+    const peak = rows.reduce((a, r) => r.on ? r : a, rows[0]);
+    const chg = (a, b) => Math.abs(b - a) < 0.5 ? 'no change' : (a === 0 ? 'n/a' : ((b - a) / a * 100 >= 0 ? '+' : '') + Math.round((b - a) / a * 100) + '%');
+    const every = peak.lives > 0 ? 'About one life every ' + fmtInt(1 / peak.lives) + ' years' : 'No change in passing, so no lives saved';
+    $('tiles').innerHTML =
+      '<div class="tile"><div class="k">What the vendor earns, year ' + peak.y + ' vs year 1</div><div class="v">' + SERIES.map(s => '<span class="row"><i style="background:' + s.color + '"></i>' + s.name + ': ' + chg(first[s.key], peak[s.key]) + '</span>').join('') + '</div></div>' +
+      '<div class="tile"><div class="k">Fines collected</div><div class="v">' + fmtMoney(first.fines) + ' &rarr; ' + fmtMoney(peak.fines) + '</div><div class="d">Year 1 to year ' + peak.y + '. Passes: ' + fmtInt(first.passes) + ' to ' + fmtInt(peak.passes) + ' a year.</div></div>' +
+      '<div class="tile"><div class="k">Lives saved a year, at full effect</div><div class="v">' + peak.lives.toFixed(3) + '</div><div class="d">' + every + '. Deaths only; injuries aren\'t counted nationally.</div></div>' +
+      '<div class="tile"><div class="k">If every US school bus had cameras</div><div class="v">' + (v.deaths * v.cut).toFixed(1) + ' lives a year</div><div class="d">' + pct(v.cut) + ' of about ' + v.deaths.toFixed(1) + ' deaths a year nationally.</div></div>';
+    $('pay-legend').innerHTML = SERIES.map(s => '<span><i style="background:' + s.color + '"></i>' + s.name + '</span>').join('');
+    drawLines($('pay-svg'), rows, SERIES, fmtMoney, r => '<b>Year ' + r.y + (r.on ? '' : ', cameras off') + '</b><br>' + SERIES.map(s => s.name + ': ' + fmtMoney(r[s.key])).join('<br>'));
+    drawLines($('passes-svg'), rows, [{ key: 'passes', name: 'Passes', color: 'var(--s-passes)', dash: '' }], fmtInt, r => '<b>Year ' + r.y + '</b><br>Drivers stopping: ' + pct(r.stop) + '<br>Passes: ' + fmtInt(r.passes) + '<br>Fines collected: ' + fmtMoney(r.fines));
+    const harm = v.deaths * VSL / (US_BUSES * v.ppd * DAYS);
+    $('hardnums').innerHTML =
+      '<div><b>' + fmtMoney(harm) + '</b>expected harm per illegal pass, counting deaths only, at $14.1 million per life (A)</div>' +
+      '<div><b>' + fmtMoney(peak.lives * VSL) + '</b>value of lives saved by this program in year ' + peak.y + '</div>' +
+      '<div><b>' + fmtMoney(peak.fines) + '</b>fines collected the same year</div>';
+    if (!$('tablewrap').hidden) table();
+  }
+  function table() {
+    $('tablewrap').innerHTML = '<table><thead><tr><th>Year</th><th>Drivers stopping</th><th>Passes</th><th>Fines collected</th>' + SERIES.map(s => '<th>' + s.name + '</th>').join('') + '<th>Lives saved</th></tr></thead><tbody>' +
+      last.map(r => '<tr><td>' + r.y + (r.on ? '' : ' (off)') + '</td><td>' + pct(r.stop) + '</td><td>' + fmtInt(r.passes) + '</td><td>' + fmtMoney(r.fines) + '</td>' + SERIES.map(s => '<td>' + fmtMoney(r[s.key]) + '</td>').join('') + '<td>' + r.lives.toFixed(4) + '</td></tr>').join('') + '</tbody></table>';
+  }
+  $('tablebtn').addEventListener('click', () => { const w = $('tablewrap'); w.hidden = !w.hidden; $('tablebtn').setAttribute('aria-expanded', String(!w.hidden)); $('tablebtn').textContent = w.hidden ? 'Show the numbers as a table' : 'Hide the table'; if (!w.hidden) table(); });
+  document.querySelectorAll('.presets button').forEach(b => b.addEventListener('click', () => { $('cut').value = b.dataset.cut; render(); }));
+  document.querySelectorAll('#controls input').forEach(i => i.addEventListener('input', render));
+  let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(render, 120); });
+
+  const INPUTS = [
+    ['Buses with cameras', '100', '1,000', '3,000', 'Montgomery County, Maryland: about 1,454 buses ' + cite('montgomery') + '. Florida: 2,635 cameras statewide ' + cite('florida') + '. US: about 387,000 school bus drivers, implied by the 2026 count ' + cite('nasdpts') + '.'],
+    ['Illegal passes per bus per school day', '0.2', '0.55', '1.0', 'One-day count by 101,334 drivers ' + cite('nasdpts') + '. Vendor data from 34 places: about 6 a month, near 0.3 a day ' + cite('nhtsa21', ', vendor data') + ' (vendor numbers, treat as C).'],
+    ['Share of passes ending in a paid ticket', '20%', '50%', '80%', 'Not published. In Florida, 214,200 of 304,220 notices were paid (70%) ' + cite('florida') + '. How many passes become notices is unknown.'],
+    ['Fine', '$100', '$250', '$300', 'Florida $200 ' + cite('florida') + '; Montgomery County $250 ' + cite('montgomery') + '; Colorado cap $300 ' + cite('colorado') + '.'],
+    ['Drop in passing', '0%', '75%', '95%', '0%: no clear drop in two federal school bus studies ' + cite('nhtsa21') + '. 75%: NYC speed camera tickets ' + cite('nyc') + '. 90%: my 90% to 99% goal.'],
+    ['Years to full effect', '1', '2', '6', 'NYC speed camera effects took about six months ' + cite('nyc') + '. Our default allows for a slower school bus rollout.'],
+    ['Vendor share of fines', '0%', '50%', '70%', 'Rhode Island law: 30% ' + cite('ncsl') + '. The 50% starting point and 70% high end are our assumptions.'],
+    ['Flat fee per bus per year', '$1,000', '$2,700', '$6,000', 'We found no official published price for a flat-fee contract, so this range is our assumption.'],
+    ['Paid for results', 'n/a', '$1,000 base + $25 per pass prevented', 'n/a', 'Our assumption. No school bus contract like this found; the model is the Peterborough bond ' + cite('peterborough') + '.'],
+    ['US deaths a year from passing drivers', '0.5', '1.8', '3.3', '2020-2024 average in the loading-zone survey ' + cite('ksde') + '. Upper bound: 33 school-age pedestrians killed by other vehicles in 10 years ' + cite('nhtsaFars') + '.'],
+    ['Value per life saved', '', '$14.1M', '', 'NHTSA value per death prevented ' + cite('nhtsaVal') + '; HHS uses the same central value ' + cite('hhs') + '.']
+  ];
+  $('inputs').innerHTML = '<thead><tr><th>Input</th><th>Low</th><th>Used</th><th>High</th><th>Where it comes from</th></tr></thead><tbody>' + INPUTS.map(r => '<tr><td>' + r[0] + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td><td>' + r[3] + '</td><td>' + r[4] + '</td></tr>').join('') + '</tbody>';
+
+  function valueCalc() { const h = +$('hrs').value; $('hrs-o').textContent = h + ' hours'; $('hrs-v').textContent = '$' + fmtInt(h * 20.27 * 52); }
+  $('hrs').addEventListener('input', valueCalc); valueCalc();
+
+  // ---------------- Who to read
+  const OL = 'https://openlibrary.org/works/';
+  const BOOKS = [
+    ['Incentives, fines and behavior', [
+      ['The Why Axis', 'Uri Gneezy and John A. List', 2013, OL + 'OL20239682W', 'Field experiments on what incentives actually do, from two economists who run them. Gneezy co-wrote the daycare fine study.', false],
+      ['The Moral Economy', 'Samuel Bowles', 2016, OL + 'OL19671401W', 'Subtitled "Why Good Incentives Are No Substitute for Good Citizens": when money and fines crowd out the motives we want.', true],
+      ['Nudge', 'Richard H. Thaler and Cass R. Sunstein', 2008, OL + 'OL3936258W', 'Levers that shape behavior without fines.', false]]],
+    ['Measuring the right thing', [
+      ['The Tyranny of Metrics', 'Jerry Z. Muller', 2018, OL + 'OL17859730W', 'What happens when numbers become targets.', false],
+      ['Upstream', 'Dan Heath', 2020, OL + 'OL20654235W', 'Solving problems before they happen, and why prevention is so hard to pay for.', true]]],
+    ['Paying for results', [
+      ['Impact', 'Ronald Cohen', 2020, OL + 'OL21686524W', 'From the investor whose organization, Social Finance, developed the first social impact bond.', false]]],
+    ['Valuing what markets miss', [
+      ['If Women Counted', 'Marilyn Waring', 1988, OL + 'OL2798505W', 'The case that national accounts leave out unpaid work.', false],
+      ['Mismeasuring Our Lives', 'Joseph E. Stiglitz, Amartya Sen and Jean-Paul Fitoussi', 2010, OL + 'OL15531863W', 'The book version of the commission report on measuring progress beyond GDP.', false]]],
+    ['Public services that work (practitioners)', [
+      ['Recoding America', 'Jennifer Pahlka', 2023, OL + 'OL28847212W', 'The founder of Code for America on why government technology fails and how to fix it. Directly relevant to any public AI program.', true],
+      ['Streetfight', 'Janette Sadik-Khan and Seth Solomonow', 2016, OL + 'OL19340016W', 'New York City\'s former transportation commissioner on redesigning streets for safety.', false],
+      ['Governing the Commons', 'Elinor Ostrom', 1990, 'https://doi.org/10.1017/CBO9780511807763', 'How communities make and enforce their own rules without a central authority or a market.', false]]],
+    ['Work, purpose and community', [
+      ['Employment and Unemployment', 'Marie Jahoda', 1982, OL + 'OL3179448W', 'What a job gives people beyond pay: structure, contact, purpose, status, activity.', false],
+      ['Bowling Alone', 'Robert D. Putnam', 2000, OL + 'OL4291077W', 'The decline, and possible revival, of American community.', false],
+      ['A World Without Work', 'Daniel Susskind', 2020, OL + 'OL20744356W', 'What to do if technology shrinks the need for human work, including the question of meaning.', false],
+      ['Abundance', 'Ezra Klein and Derek Thompson', 2025, OL + 'OL42415680W', 'The case for building more of what people need. Closest to the "abundance path" in these pages.', false]]]
+  ];
+  const PAPERS = [['A Fine Is a Price', 'Gneezy and Rustichini, 2000', S.gneezy[1]], ['Crime and Punishment: An Economic Approach', 'Becker, 1968', S.becker[1]], ['Assessing the Impact of Planned Social Change', 'Campbell, 1979', S.campbell[1]], ['On the Folly of Rewarding A, While Hoping for B', 'Kerr, 1975', 'https://doi.org/10.2307/255378']];
+  $('booklist').innerHTML = BOOKS.map(g => '<div class="group"><h3>' + g[0] + '</h3><div class="books">' + g[1].map(b => '<div class="book' + (b[5] ? ' start' : '') + '">' + (b[5] ? '<div class="tag">Start here</div>' : '') + '<div class="title"><a href="' + b[3] + '" target="_blank" rel="noopener">' + b[0] + '</a></div><div class="by">' + b[1] + ', ' + b[2] + '</div><p>' + b[4] + '</p></div>').join('') + '</div></div>').join('') +
+    '<div class="group"><h3>Shorter classics behind the ideas</h3><div class="books">' + PAPERS.map(p => '<div class="book"><div class="title"><a href="' + p[2] + '" target="_blank" rel="noopener">' + p[0] + '</a></div><div class="by">' + p[1] + '</div></div>').join('') + '</div></div>';
+
+  // ---------------- Sources
+  $('sourcelist').innerHTML = Object.keys(S).map(k => '<li><a href="' + S[k][1] + '" target="_blank" rel="noopener">' + S[k][0] + '</a> <span class="grade' + (S[k][2] === 'C' ? ' c' : '') + '">' + S[k][2] + '</span> <span class="read">Read: ' + S[k][3] + '</span></li>').join('');
+
+  route();
+})();
+</script>
+
+</body>
+</html>

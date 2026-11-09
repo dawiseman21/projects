@@ -409,3 +409,61 @@ footer {
     .playful { padding-top: calc(var(--ridge-h) + 3rem); padding-bottom: 4.5rem; }
     .playful .wrap { box-shadow: 6px 6px 0 var(--p-magenta); }
 }
+
+/* ------------------------------------------------------------------
+   Good uses of AI page (uses.html)
+   ------------------------------------------------------------------ */
+.nav-links a[aria-current="page"] { color: var(--gold); }
+
+.hero-compact .hero-inner { padding-bottom: clamp(40px, 6vw, 72px); }
+
+.prose h2 { text-align: left; margin-bottom: 1.5rem; }
+.prose h3 { margin: 2.25rem 0 0.75rem; color: var(--text); }
+.prose p, .prose li { color: var(--lede); }
+.prose p { margin-bottom: 1.125rem; }
+.prose ul, .prose ol { display: grid; gap: 0.75rem; margin: 0 0 1.25rem 1.25rem; }
+.prose li::marker { color: var(--gold); font-family: var(--display); font-weight: 600; }
+.prose strong { color: var(--text); font-weight: 600; }
+
+.test-list { gap: 1rem; }
+.note { margin-top: 1.5rem; padding: 18px 20px; border-left: 3px solid var(--gold); background: var(--bg); font-size: 1rem; }
+
+.kicker {
+    margin-bottom: 0.5rem;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 0.875rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--sage);
+}
+.verdict {
+    display: inline-block;
+    margin-bottom: 1.75rem;
+    padding: 6px 14px;
+    border: 2px solid var(--ember);
+    border-radius: 3px;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text);
+}
+.prose p.verdict { color: var(--text); }
+
+.src { font-size: 0.875em; color: var(--fog); white-space: normal; }
+.src a { color: var(--gold); }
+
+.section-alt .use-card h3 { font-size: 1.0625rem; }
+.section-alt .use-grid .card:nth-child(3n+1) h3 { background: var(--ember); }
+.section-alt .use-grid .card:nth-child(3n+2) h3 { background: var(--gold); }
+.section-alt .use-grid .card:nth-child(3n+3) h3 { background: var(--sage); }
+.section-alt .use-card p { padding: 0 24px; margin: 16px 0 0; font-size: 1rem; }
+.section-alt .use-card p:last-child { padding-bottom: 24px; }
+.use-card strong { color: var(--gold); font-weight: 600; }
+
+.caution-grid .card { border-top: 4px solid var(--ember); }
+.caution-grid .card h3 { font-size: 1rem; color: var(--text); }
+.caution-grid .card p { margin-bottom: 0.875rem; font-size: 1rem; }
+.caution-grid .lesson { margin-bottom: 0; font-weight: 600; color: var(--gold); }
